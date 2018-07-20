@@ -27,11 +27,11 @@ CREATE TABLE rooms (
   PRIMARY KEY (id)
 );
 
-ALTER TABLE bookedDates ADD FOREIGN KEY (room_id) REFERENCES rooms (id);
 
 LOAD DATA LOCAL INFILE './database/fakeBookings.csv' INTO TABLE bookedDates
   FIELDS TERMINATED BY ', ' 
   LINES TERMINATED BY '\r\n';
+
 LOAD DATA LOCAL INFILE './database/fakeRoomDetails.csv' INTO TABLE rooms
   FIELDS TERMINATED BY ', ' 
   LINES TERMINATED BY '\r\n';

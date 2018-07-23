@@ -3,17 +3,17 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-app.use(express.static('../public'));
+app.use('/rooms/:id', express.static('../public'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
-app.get('/room/:roomid/bookings', (req, res) => {
+app.get('/rooms/:roomid/bookings', (req, res) => {
   res.send('test get successful');
 });
 
-app.post('/room/:roomid/bookings', (req, res) => {
+app.post('/rooms/:roomid/bookings', (req, res) => {
   res.send('test post successful');
 });
 

@@ -18,7 +18,7 @@ const generateBookingDates = () => {
       const currentStayEnd = currentStayStart + currentStayLength;
       if (currentStayEnd <= maxDateId) {
         if (bookingsPerRoom.length === 0) {
-          bookingsPerRoom.push([moment([2018, 0, 1]).add(currentStayStart, 'days').format('YYYY-MM-DD'), moment([2018, 0, 1]).add(currentStayEnd, 'days').format('YYYY-MM-DD')]);
+          bookingsPerRoom.push([currentStayStart, currentStayEnd]);
         } else {
           const stop = bookingsPerRoom.length;
           for (let k = 0; k < stop; k += 1) {
@@ -32,14 +32,15 @@ const generateBookingDates = () => {
               break;
             } else if (k === stop - 1) {
               // add this bookings to the current room's bookings
-              bookingsPerRoom.push([moment([2018, 0, 1]).add(currentStayStart, 'days').format('YYYY-MM-DD'), moment([2018, 0, 1]).add(currentStayEnd, 'days').format('YYYY-MM-DD')]);
+              bookingsPerRoom.push([currentStayStart, currentStayEnd]);
             }
           }
         }
       }
     }
+    const bookingsPerRoomWithDates = bookingsPerRoom.map(booking => booking.map(date => moment([2018, 0, 1]).add(date, 'days').format('YYYY-MM-DD')));
     // add bookings for this room into the total bookings array
-    totalBookings.push(bookingsPerRoom);
+    totalBookings.push(bookingsPerRoomWithDates);
   }
   return totalBookings;
 };

@@ -1,11 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const webpack = require('webpack'); // eslint-disable-line import/no-extraneous-dependencies
-const webpackDevMiddleware = require('webpack-dev-middleware'); // eslint-disable-line import/no-extraneous-dependencies
-const config = require('../webpack.config.js');
+// const webpack = require('webpack'); // eslint-disable-line import/no-extraneous-dependencies
+// const webpackDevMiddleware = require('webpack-dev-middleware'); // eslint-disable-line import/no-extraneous-dependencies
+// const config = require('../webpack.config.js');
 const db = require('../database/index.js');
 
-const compiler = webpack(config);
+// const compiler = webpack(config);
 
 const app = express();
 
@@ -15,9 +15,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
-app.use(webpackDevMiddleware(compiler, {
-  publicPath: config.output.publicPath,
-}));
+// app.use(webpackDevMiddleware(compiler, {
+//   publicPath: config.output.publicPath,
+// }));
 
 
 app.get('/rooms/:id/bookings', (req, res) => {

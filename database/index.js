@@ -12,12 +12,12 @@ const getAllBookings = (params, callback) => {
 };
 
 const getRoomInfo = (params, callback) => {
-  const queryString = 'SELECT * FROM rooms WHERE room_id = ?';
+  const queryString = 'SELECT * FROM rooms WHERE id = ?';
   db.query(queryString, params, (err, results) => {
     if (err) {
       throw err;
     } else {
-      callback(null, results);
+      callback(null, results[0]);
     }
   });
 };

@@ -1,33 +1,18 @@
 import React from 'react';
 
-const Stars = ({ num }) => {
-  const starsArr = [];
-  for (let i = 0; i < 5; i += 1) {
-    if (i < num) {
-      starsArr.push('X');
-    } else {
-      starsArr.push('O');
-    }
-  }
-  const stars = starsArr.map((star) => {
-    if (star === 'X') {
-      return (
-        <button type="button">
-          X
-        </button>
-      );
-    }
+const Stars = ({ num }) => Array(5).fill('').map((star, i) => {
+  if (i < num) {
     return (
       <button type="button">
-        O
+        X
       </button>
     );
-  });
+  }
   return (
-    <span>
-      {stars}
-    </span>
+    <button type="button">
+      O
+    </button>
   );
-};
+});
 
 export default Stars;

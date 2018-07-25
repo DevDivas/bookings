@@ -4,8 +4,8 @@ module.exports = {
   entry: path.resolve(__dirname, 'client/index.jsx'),
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: './public',
+    path: path.resolve(__dirname, 'public'),
+    publicPath: '/public/',
   },
   mode: 'development',
   module: {
@@ -28,6 +28,9 @@ module.exports = {
         },
       },
     ],
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
   },
   devtool: 'source-map',
 };

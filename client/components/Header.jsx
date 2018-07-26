@@ -1,20 +1,32 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Stars from './Stars';
 
-const Headers = () => (
+const Headers = ({ roomDetails }) => (
   <div>
     <div>
       <span>
-        PRICE
+        {roomDetails.roomRateBase}
       </span>
       <span>
         per Night
       </span>
     </div>
     <div>
-      <Stars num={2} />
+      <Stars num={roomDetails.stars} />
     </div>
   </div>
 );
+
+Headers.propTypes = {
+  roomDetails: PropTypes.shape({
+    roomRateBase: PropTypes.number,
+    stars: PropTypes.number,
+  }),
+};
+
+Headers.defaultProps = {
+  roomDetails: {},
+};
 
 export default Headers;

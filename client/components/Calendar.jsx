@@ -4,7 +4,7 @@ const moment = require('moment');
 
 const Calendar = (props) => {
   const {
-    calendarOpen, month, year, bookings, dates, selectDate, leftMonth,
+    calendarOpen, month, year, bookings, dates, selectDate, changeMonth,
   } = props;
   const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   const bookingsMap = {};
@@ -33,7 +33,7 @@ const Calendar = (props) => {
         <div>
           <span>
             <img alt="" />
-            <button type="button" onClick={leftMonth}>
+            <button type="button" onClick={() => { changeMonth('prev'); }}>
               Left
             </button>
           </span>
@@ -42,6 +42,9 @@ const Calendar = (props) => {
           </span>
           <span>
             <img alt="" />
+            <button type="button" onClick={() => { changeMonth('next'); }}>
+              Right
+            </button>
           </span>
         </div>
         <div>

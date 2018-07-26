@@ -20,7 +20,7 @@ class App extends React.Component {
       monthlyBookings: [],
     };
     this.availableRoom = this.availableRoom.bind(this);
-    this.leftMonth = this.leftMonth.bind(this);
+    this.changeMonth = this.changeMonth.bind(this);
   }
 
   componentDidMount() {
@@ -56,7 +56,7 @@ class App extends React.Component {
       });
   }
 
-  static getCurrentMonthBookings(currentMonth, allBookings, numDaysInMonth) {
+  getCurrentMonthBookings(currentMonth, allBookings, numDaysInMonth) {
     const monthBookings = allBookings.reduce((bookingsPerMonth, booking) => {
       if (booking.start_date.slice(5, 7) === currentMonth) {
         if (booking.end_date.slice(5, 7) === currentMonth) {
@@ -76,14 +76,18 @@ class App extends React.Component {
     console.log('clicked! ' + date);
   }
 
-  leftMonth() {
-    const currentMonth = this.state.currentMonth;
-    const prevMonth = moment(currentMonth, 'MM').subtract(1, 'month').format('MM');
-    const newNumDays = moment(`${this.state.currentYear}-${prevMonth}`, 'YYYY-MM').daysInMonth();
-    const newBookings = this.getCurrentMonthBookings(prevMonth, this.state.bookings, newNumDays);
-    console.log(newBookings);
+  changeMonth(direction) {
+    const { currentMonth, bookings, currentYear } = this.state;
+    let newMonth = '';
+    if (direction === 'prev') {
+      newMonth = moment(currentMonth, 'MM').subtract(1, 'month').format('MM');
+    } else if (direction === 'next') {
+      newMonth = moment(currentMonth, 'MM').add(1, 'month').format('MM');
+    }
+    const newNumDays = moment(`${currentYear}-${newMonth}`, 'YYYY-MM').daysInMonth();
+    const newBookings = this.getCurrentMonthBookings(newMonth, bookings, newNumDays);
     this.setState({
-      currentMonth: prevMonth,
+      currentMonth: newMonth,
       numDaysInMonth: newNumDays,
       monthlyBookings: newBookings,
     });
@@ -99,12 +103,12 @@ class App extends React.Component {
         <Header roomDetails={roomDetails} />
         <hr />
         <Dates
-          monthlyBookings={this.state.monthlyBookings}
+          monthlyBookings={monthlyBookings}
           currentMonth={currentMonth}
           currentYear={currentYear}
           numDaysInMonth={numDaysInMonth}
           availableRoom={this.availableRoom}
-          leftMonth={this.leftMonth}
+          changeMonth={this.changeMonth}
         />
       </div>
     );

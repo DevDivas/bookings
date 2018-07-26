@@ -4,7 +4,7 @@ import Calendar from './Calendar';
 const moment = require('moment');
 
 const Dates = (props) => {
-  const { currentYear, currentMonth, numDaysInMonth, monthlyBookings, availableRoom, leftMonth } = props;
+  const { currentYear, currentMonth, numDaysInMonth, monthlyBookings, availableRoom, changeMonth } = props;
   const createMonth = () => {
     const dayOfWeek = moment(`${currentYear}-${currentMonth}-01`).day();
     return Array(numDaysInMonth + dayOfWeek).fill(null).map((day, index) => {
@@ -28,7 +28,7 @@ const Dates = (props) => {
         bookings={monthlyBookings}
         dates={createMonth()}
         selectDate={availableRoom}
-        leftMonth={leftMonth}
+        changeMonth={changeMonth}
       />
     </div>
   );

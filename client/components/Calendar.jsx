@@ -4,12 +4,11 @@ const moment = require('moment');
 
 const Calendar = (props) => {
   const {
-    calendarOpen, month, year, bookings, dates, selectDate,
+    calendarOpen, month, year, bookings, dates, selectDate, leftMonth,
   } = props;
   const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   const bookingsMap = {};
   bookings.forEach((booking) => {
-    console.log('hi');
     for (let i = Number(booking[0]); i <= Number(booking[1]); i += 1) {
       bookingsMap[i] = true;
     }
@@ -34,6 +33,9 @@ const Calendar = (props) => {
         <div>
           <span>
             <img alt="" />
+            <button type="button" onClick={leftMonth}>
+              Left
+            </button>
           </span>
           <span>
             {`${moment(month).format('MMMM')} ${year}`}

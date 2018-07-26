@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Header from './Header';
+import Dates from './Dates';
 
 const axios = require('axios');
 
@@ -10,18 +11,16 @@ class App extends React.Component {
     super();
     this.state = {
       roomid: /\d+/g.exec(window.location.pathname)[0],
-      month: '05',
       bookings: [],
-      bookingsThisMonth: [],
       roomDetails: {},
     };
   }
 
   componentDidMount() {
-    const { roomid, month } = this.state;
+    const { roomid } = this.state;
     axios.get(`/rooms/${roomid}/room`)
       .then((response) => {
-        const roomDetails = response.data[0];
+        const roomDetails = response.data;
         this.setState({
           roomDetails: {
             roomRateBase: roomDetails.room_rate_base,
@@ -39,17 +38,8 @@ class App extends React.Component {
     axios.get(`/rooms/${roomid}/bookings`)
       .then((response) => {
         const roomBookings = response.data;
-        const monthlyBookings = roomBookings.reduce((bookingsPerMonth, booking) => {
-          if (booking.start_date.slice(5, 7) === month) {
-            bookingsPerMonth.push(booking);
-          } else if (booking.end_date.slice(5, 7) === month) {
-            bookingsPerMonth.push(booking);
-          }
-          return bookingsPerMonth;
-        }, []);
         this.setState({
           bookings: roomBookings,
-          bookingsThisMonth: monthlyBookings,
         });
       })
       .catch((error) => {
@@ -59,11 +49,12 @@ class App extends React.Component {
 
 
   render() {
-    const { roomDetails, stars } = this.state;
+    const { roomDetails, bookings } = this.state;
     return (
       <div>
-        <Header roomDetails={roomDetails} stars={stars} />
+        <Header roomDetails={roomDetails} />
         <hr />
+        <Dates bookings={bookings} />
       </div>
     );
   }

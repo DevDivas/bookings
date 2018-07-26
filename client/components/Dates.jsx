@@ -6,13 +6,12 @@ const moment = require('moment');
 class Dates extends React.Component {
   constructor(props) {
     super(props);
-    const { bookings } = this.props;
     this.state = {
       currentMonth: moment().format('MM'),
       currentYear: moment().format('YYYY'),
       calendarOpen: true, // might need to move this to App because clicking a date affects this AND checkinDate on App
-      numDaysInMonth: moment(`${this.state.currentYear}-${this.state.currentMonth}`, 'YYYY-MM').daysInMonth(),
-      allBookings: bookings,
+      numDaysInMonth: moment(`${moment().format('YYYY')}-${moment().format('MM')}`, 'YYYY-MM').daysInMonth(),
+      allBookings: this.props.bookings,
       monthlyBookings: [],
     };
     // this.createMonth = this.createMonth.bind(this);
@@ -22,10 +21,13 @@ class Dates extends React.Component {
   componentDidMount() {
     // set monthlyBookings
     const { currentMonth, allBookings, numDaysInMonth } = this.state;
+    console.log(allBookings);
     this.getCurrentMonthBookings(currentMonth, allBookings, numDaysInMonth);
+    console.log('blah blah');
   }
 
   getCurrentMonthBookings(currentMonth, allBookings, numDaysInMonth) {
+    console.log(allBookings);
     const monthBookings = allBookings.reduce((bookingsPerMonth, booking) => {
       if (booking.start_date.slice(5, 7) === currentMonth) {
         if (booking.end_date.slice(5, 7) === currentMonth) {
@@ -58,9 +60,11 @@ class Dates extends React.Component {
     console.log('clicked' + date);
   }
 
+
+
   render() {
     const {
-      currentMonth, calendarOpen, currentYear, monthlyBookings,
+      currentMonth, calendarOpen, currentYear, allBookings, numDaysInMonth,
     } = this.state;
 
     return (
@@ -74,7 +78,7 @@ class Dates extends React.Component {
           calendarOpen={calendarOpen}
           month={currentMonth}
           year={currentYear}
-          bookings={monthlyBookings}
+          bookings={this.getCurrentMonthBookings(currentMonth, allBookings, numDaysInMonth)}
           dates={this.createMonth()}
           selectDate={this.selectDate}
         />

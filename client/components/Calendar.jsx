@@ -9,6 +9,7 @@ const Calendar = (props) => {
   const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   const bookingsMap = {};
   bookings.forEach((booking) => {
+    console.log('hi');
     for (let i = Number(booking[0]); i <= Number(booking[1]); i += 1) {
       bookingsMap[i] = true;
     }
@@ -17,7 +18,7 @@ const Calendar = (props) => {
     if (bookingsMap[date]) {
       return (
         <li className="booked">
-          {date}
+          {`${date} BOOKED`}
         </li>
       );
     }

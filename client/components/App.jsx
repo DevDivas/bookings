@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Header from './Header';
+import Dates from './Dates';
 
 const axios = require('axios');
 
@@ -10,18 +11,19 @@ class App extends React.Component {
     super();
     this.state = {
       roomid: /\d+/g.exec(window.location.pathname)[0],
-      month: '05',
-      bookings: [],
-      bookingsThisMonth: [],
       roomDetails: {},
+      checkin: '',
+      checkout: '',
+      checkinSelected: false,
     };
+    this.selectDate = this.selectDate.bind(this);
   }
 
   componentDidMount() {
-    const { roomid, month } = this.state;
+    const { roomid } = this.state;
     axios.get(`/rooms/${roomid}/room`)
       .then((response) => {
-        const roomDetails = response.data[0];
+        const roomDetails = response.data;
         this.setState({
           roomDetails: {
             roomRateBase: roomDetails.room_rate_base,
@@ -36,34 +38,35 @@ class App extends React.Component {
       .catch((error) => {
         console.log(error);
       });
-    axios.get(`/rooms/${roomid}/bookings`)
-      .then((response) => {
-        const roomBookings = response.data;
-        const monthlyBookings = roomBookings.reduce((bookingsPerMonth, booking) => {
-          if (booking.start_date.slice(5, 7) === month) {
-            bookingsPerMonth.push(booking);
-          } else if (booking.end_date.slice(5, 7) === month) {
-            bookingsPerMonth.push(booking);
-          }
-          return bookingsPerMonth;
-        }, []);
-        this.setState({
-          bookings: roomBookings,
-          bookingsThisMonth: monthlyBookings,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
+  }
+
+  selectDate(date) {
+    let newDate = date;
+    if (Number(date.slice(8)) < 10) {
+      newDate = `${date.slice(0, 8)}0${date.slice(8)}`
+    }
+    const { checkinSelected } = this.state;
+    if (checkinSelected) {
+      this.setState({
+        checkout: newDate,
+        checkinSelected: false,
       });
+    } else {
+      this.setState({
+        checkin: newDate,
+        checkinSelected: true,
+      });
+    }
   }
 
 
   render() {
-    const { roomDetails, stars } = this.state;
+    const { roomDetails, roomid } = this.state;
     return (
       <div>
-        <Header roomDetails={roomDetails} stars={stars} />
+        <Header roomDetails={roomDetails} />
         <hr />
+        <Dates roomid={roomid} selectDate={this.selectDate} />
       </div>
     );
   }

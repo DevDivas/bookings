@@ -4,9 +4,29 @@ const moment = require('moment');
 
 const Calendar = (props) => {
   const {
-    calendarOpen, month, year, bookings, dates,
+    calendarOpen, month, year, bookings, dates, selectDate,
   } = props;
   const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+  const bookingsMap = {};
+  bookings.forEach((booking) => {
+    for (let i = Number(booking[0]); i <= Number(booking[1]); i += 1) {
+      bookingsMap[i] = true;
+    }
+  });
+  const datesArr = dates.map((date) => {
+    if (bookingsMap[date]) {
+      return (
+        <li className="booked">
+          {date}
+        </li>
+      );
+    }
+    return (
+      <li className="available" onClick={() => { selectDate(`${year}-${month}-${date}`); }}>
+          {date}
+      </li>
+    );
+  });
   if (calendarOpen) {
     return (
       <div>
@@ -29,10 +49,7 @@ const Calendar = (props) => {
               </li>))}
           </ul>
           <ul>
-            {dates.map(day => (
-              <li>
-                {day}
-              </li>))}
+            {datesArr}
           </ul>
         </div>
       </div>

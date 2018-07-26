@@ -21,8 +21,8 @@ class Dates extends React.Component {
 
   componentDidMount() {
     // set monthlyBookings
-    const { currentMonth, allBookings } = this.state;
-    this.getCurrentMonthBookings(currentMonth, allBookings);
+    const { currentMonth, allBookings, numDaysInMonth } = this.state;
+    this.getCurrentMonthBookings(currentMonth, allBookings, numDaysInMonth);
   }
 
   getCurrentMonthBookings(currentMonth, allBookings, numDaysInMonth) {

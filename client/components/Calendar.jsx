@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const moment = require('moment');
 
@@ -64,6 +65,26 @@ const Calendar = (props) => {
     );
   }
   return null;
+};
+
+Calendar.propTypes = {
+  calendarOpen: PropTypes.bool,
+  month: PropTypes.string,
+  year: PropTypes.string,
+  bookings: PropTypes.arrayOf(PropTypes.array),
+  dates: PropTypes.arrayOf(PropTypes.number),
+  selectDate: PropTypes.func,
+  changeMonth: PropTypes.func,
+};
+
+Calendar.defaultProps = {
+  calendarOpen: false,
+  month: '01',
+  year: '2018',
+  bookings: [],
+  dates: [],
+  selectDate: () => {},
+  changeMonth: () => {},
 };
 
 export default Calendar;

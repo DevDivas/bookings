@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Calendar from './Calendar';
 
 const axios = require('axios');
@@ -106,5 +107,15 @@ class Dates extends React.Component {
     );
   }
 }
+
+Dates.propTypes = {
+  roomid: PropTypes.string,
+  selectDate: PropTypes.func,
+};
+
+Dates.defaultProps = {
+  roomid: '1',
+  selectDate: () => {},
+};
 
 export default Dates;

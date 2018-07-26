@@ -17,13 +17,15 @@ const Calendar = (props) => {
     if (bookingsMap[date]) {
       return (
         <li className="booked">
-          {`${date} BOOKED`}
+          {date}
         </li>
       );
     }
     return (
-      <li className="available" onClick={() => { selectDate(`${year}-${month}-${date}`); }}>
+      <li className="available">
+        <button type="button" onClick={() => { selectDate(`${year}-${month}-${date}`); }}>
           {date}
+        </button>
       </li>
     );
   });

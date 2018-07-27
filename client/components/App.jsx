@@ -12,11 +12,14 @@ class App extends React.Component {
     this.state = {
       roomid: /\d+/g.exec(window.location.pathname)[0],
       roomDetails: {},
-      checkin: '',
-      checkout: '',
+      checkin: 'Check In',
+      checkout: 'Check Out',
       checkinSelected: false,
+      calendarOpen: false,
+
     };
     this.selectDate = this.selectDate.bind(this);
+    this.openCalendar = this.openCalendar.bind(this);
   }
 
   componentDidMount() {
@@ -43,15 +46,20 @@ class App extends React.Component {
   selectDate(date) {
     let newDate = date;
     if (Number(date.slice(8)) < 10) {
-      newDate = `${date.slice(0, 8)}0${date.slice(8)}`
+      newDate = `${date.slice(0, 8)}0${date.slice(8)}`;
     }
     const { checkinSelected } = this.state;
     if (checkinSelected) {
+      console.log('BLAH BALH');
+      console.log('checkinstate' + checkinSelected);
       this.setState({
         checkout: newDate,
         checkinSelected: false,
+        calendarOpen: false,
       });
     } else {
+      console.log('test')
+      console.log('checkinstate' + checkinSelected);
       this.setState({
         checkin: newDate,
         checkinSelected: true,
@@ -59,14 +67,31 @@ class App extends React.Component {
     }
   }
 
+  openCalendar() {
+    const { calendarOpen } = this.state;
+    this.setState({
+      calendarOpen: !calendarOpen,
+    });
+  }
+
 
   render() {
-    const { roomDetails, roomid } = this.state;
+    const {
+      roomDetails, roomid, checkin, checkout, checkinSelected, calendarOpen,
+    } = this.state;
     return (
       <div>
         <Header roomDetails={roomDetails} />
         <hr />
-        <Dates roomid={roomid} selectDate={this.selectDate} />
+        <Dates
+          roomid={roomid}
+          selectDate={this.selectDate}
+          checkin={checkin}
+          checkout={checkout}
+          checkinSelected={checkinSelected}
+          calendarOpen={calendarOpen}
+          openCalendar={this.openCalendar}
+        />
       </div>
     );
   }

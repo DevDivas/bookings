@@ -15,7 +15,6 @@ class Dates extends React.Component {
       numDaysInMonth: moment(`${moment().format('YYYY')}-${moment().format('MM')}`, 'YYYY-MM').daysInMonth(),
       monthlyBookings: [],
       bookings: [],
-      calendarOpen: true,
       id: roomid,
     };
     this.changeMonth = this.changeMonth.bind(this);
@@ -84,15 +83,17 @@ class Dates extends React.Component {
 
   render() {
     const {
-      monthlyBookings, currentMonth, currentYear, calendarOpen,
+      monthlyBookings, currentMonth, currentYear,
     } = this.state;
-    const { selectDate } = this.props;
+    const {
+      selectDate, checkin, checkout, checkinSelected, calendarOpen, openCalendar,
+    } = this.props;
     return (
       <div>
         <div>
-          <input type="text" value="Check In" />
+          <input type="text" value={checkin} onClick={openCalendar} />
           <img alt="" />
-          <input type="text" value="Check Out" />
+          <input type="text" value={checkout} onClick={openCalendar} />
         </div>
         <Calendar
           calendarOpen={calendarOpen}
@@ -102,6 +103,8 @@ class Dates extends React.Component {
           dates={this.createMonth()}
           selectDate={selectDate}
           changeMonth={this.changeMonth}
+          checkin={checkin}
+          checkinSelected={checkinSelected}
         />
       </div>
     );
@@ -111,11 +114,21 @@ class Dates extends React.Component {
 Dates.propTypes = {
   roomid: PropTypes.string,
   selectDate: PropTypes.func,
+  checkin: PropTypes.string,
+  checkout: PropTypes.string,
+  checkinSelected: PropTypes.bool,
+  calendarOpen: PropTypes.bool,
+  openCalendar: PropTypes.func,
 };
 
 Dates.defaultProps = {
   roomid: '1',
   selectDate: () => {},
+  checkin: '2018-01-01',
+  checkout: '2018-01-01',
+  checkinSelected: false,
+  calendarOpen: false,
+  openCalendar: () => {},
 };
 
 export default Dates;

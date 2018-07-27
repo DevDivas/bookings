@@ -39,14 +39,20 @@ class Dates extends React.Component {
 
   getCurrentMonthBookings(currentMonth, allBookings, numDaysInMonth) {
     const monthBookings = allBookings.reduce((bookingsPerMonth, booking) => {
-      if (booking.start_date.slice(5, 7) === currentMonth) {
-        if (booking.end_date.slice(5, 7) === currentMonth) {
-          bookingsPerMonth.push([booking.start_date.slice(8, 10), booking.end_date.slice(8, 10)]);
+      const bookingStartArr = booking.start_date.split('-');
+      const bookingEndArr = booking.end_date.split('-');
+      const bookingStartMonth = bookingStartArr[1];
+      const bookingEndMonth = bookingEndArr[1];
+      const bookingStartDay = bookingStartArr[2].split('T')[0];
+      const bookingEndDay = bookingEndArr[2].split('T')[0];
+      if (bookingStartMonth === currentMonth) {
+        if (bookingEndMonth === currentMonth) {
+          bookingsPerMonth.push([bookingStartDay, bookingEndDay]);
         } else {
-          bookingsPerMonth.push([booking.start_date.slice(8, 10), numDaysInMonth]);
+          bookingsPerMonth.push([bookingStartDay, numDaysInMonth]);
         }
-      } else if (booking.end_date.slice(5, 7) === currentMonth) {
-        bookingsPerMonth.push([1, booking.end_date.slice(8, 10)]);
+      } else if (bookingEndMonth === currentMonth) {
+        bookingsPerMonth.push([1, bookingEndDay]);
       }
       return bookingsPerMonth;
     }, []);

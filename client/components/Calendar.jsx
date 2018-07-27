@@ -9,21 +9,23 @@ const Calendar = (props) => {
   } = props;
   const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   const bookingsMap = {};
+  console.log(bookings);
   bookings.forEach((booking) => {
     for (let i = Number(booking[0]); i <= Number(booking[1]); i += 1) {
       bookingsMap[i] = true;
     }
   });
   let stopBookingsFromHere = '';
-  const checkinDate = checkin.slice(8);
-  const checkinMonth = checkin.slice(5, 7);
+  const checkinDate = checkin.split('-');
+  const checkinDay = checkinDate[2];
+  const checkinMonth = checkinDate[1];
   if (checkinSelected && checkinMonth === month) {
-    bookingsMap[checkinDate] = true;
+    bookingsMap[checkinDay] = true;
     const bookedDates = Object.keys(bookingsMap).sort((a, b) => a - b);
-    stopBookingsFromHere = bookedDates[bookedDates.indexOf(checkinDate) + 1];
+    stopBookingsFromHere = bookedDates[bookedDates.indexOf(checkinDay) + 1];
   }
   const datesArr = dates.map((date) => {
-    if ((checkinSelected && month === checkinMonth && (date >= Number(stopBookingsFromHere) || date < Number(checkinDate)))
+    if ((checkinSelected && month === checkinMonth && (date >= Number(stopBookingsFromHere) || date < Number(checkinDay)))
       // || (checkinSelected && checkinMonth === moment(month, 'MM').subtract(1, 'month').format('MM'))
       || bookingsMap[date]) {
       console.log('here');
@@ -42,8 +44,6 @@ const Calendar = (props) => {
     );
   });
   if (calendarOpen) {
-    console.log(checkinSelected);
-    console.log(checkin);
     return (
       <div>
         <div>

@@ -4,6 +4,7 @@ import React from 'react';
 import Header from './Header';
 import Dates from './Dates';
 import Pricing from './Pricing';
+import Guests from './Guests';
 
 const axios = require('axios');
 const moment = require('moment');
@@ -19,10 +20,17 @@ class App extends React.Component {
       checkinSelected: false,
       datesSelected: false,
       calendarOpen: false,
-      guests: 1,
+      numGuests: {
+        adults: 1,
+        children: 0,
+        infants: 0,
+      },
+      toggleGuests: false,
     };
     this.selectDate = this.selectDate.bind(this);
     this.openCalendar = this.openCalendar.bind(this);
+    this.changeGuestNum = this.changeGuestNum.bind(this);
+    this.toggleGuestMenu = this.toggleGuestMenu.bind(this);
   }
 
   componentDidMount() {
@@ -74,10 +82,37 @@ class App extends React.Component {
     });
   }
 
+  changeGuestNum(guestType, direction) {
+    const guest = guestType.toLowerCase();
+    const { numGuests } = this.state;
+    if (direction === '-') {
+      numGuests[guest] -= 1;
+    } else if (direction === '+') {
+      numGuests[guest] += 1;
+    }
+    this.setState({
+      numGuests,
+    });
+  }
+
+  toggleGuestMenu() {
+    const { toggleGuests } = this.state;
+    this.setState({
+      toggleGuests: !toggleGuests,
+    });
+  }
 
   render() {
     const {
-      roomDetails, roomid, checkin, checkout, checkinSelected, calendarOpen, datesSelected,
+      roomDetails,
+      roomid,
+      checkin,
+      checkout,
+      checkinSelected,
+      calendarOpen,
+      datesSelected,
+      numGuests,
+      toggleGuests,
     } = this.state;
     return (
       <div>
@@ -100,6 +135,13 @@ class App extends React.Component {
             />
           )
         }
+        <Guests
+          numGuests={numGuests}
+          toggleGuests={toggleGuests}
+          maxGuests={roomDetails.maxGuests}
+          changeGuestNum={this.changeGuestNum}
+          toggleGuestMenu={this.toggleGuestMenu}
+        />
       </div>
     );
   }

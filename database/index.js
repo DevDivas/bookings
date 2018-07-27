@@ -23,7 +23,7 @@ const getRoomInfo = (params, callback) => {
 };
 
 const addBooking = (params, callback) => {
-  const queryString = 'INSERT INTO bookings (start_date, end_date, room_id) VALUES (?, ?, ?)';
+  const queryString = 'INSERT INTO bookedDates (start_date, end_date, room_id) VALUES (?, ?, ?)';
   db.query(queryString, params, (err, results) => {
     if (err) {
       throw err;

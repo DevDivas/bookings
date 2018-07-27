@@ -127,6 +127,13 @@ class App extends React.Component {
           calendarOpen={calendarOpen}
           openCalendar={this.openCalendar}
         />
+        <Guests
+          numGuests={numGuests}
+          toggleGuests={toggleGuests}
+          maxGuests={roomDetails.maxGuests}
+          changeGuestNum={this.changeGuestNum}
+          toggleGuestMenu={this.toggleGuestMenu}
+        />
         {datesSelected
           && (
             <Pricing
@@ -135,13 +142,6 @@ class App extends React.Component {
             />
           )
         }
-        <Guests
-          numGuests={numGuests}
-          toggleGuests={toggleGuests}
-          maxGuests={roomDetails.maxGuests}
-          changeGuestNum={this.changeGuestNum}
-          toggleGuestMenu={this.toggleGuestMenu}
-        />
       </div>
     );
   }

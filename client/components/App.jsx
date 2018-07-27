@@ -48,13 +48,11 @@ class App extends React.Component {
 
   selectDate(date) {
     let newDate = date;
-    if (Number(date.slice(8)) < 10) {
+    if (date.slice(8).length === 1) {
       newDate = `${date.slice(0, 8)}0${date.slice(8)}`;
     }
     const { checkinSelected } = this.state;
     if (checkinSelected) {
-      console.log('BLAH BALH');
-      console.log('checkinstate' + checkinSelected);
       this.setState({
         checkout: newDate,
         checkinSelected: false,
@@ -62,8 +60,6 @@ class App extends React.Component {
         datesSelected: true,
       });
     } else {
-      console.log('test')
-      console.log('checkinstate' + checkinSelected);
       this.setState({
         checkin: newDate,
         checkinSelected: true,

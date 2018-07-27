@@ -5,7 +5,7 @@ const moment = require('moment');
 
 const Calendar = (props) => {
   const {
-    calendarOpen, month, year, bookings, dates, selectDate, changeMonth,
+    calendarOpen, month, year, bookings, dates, selectDate, changeMonth, checkin, checkinSelected,
   } = props;
   const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   const bookingsMap = {};
@@ -14,8 +14,19 @@ const Calendar = (props) => {
       bookingsMap[i] = true;
     }
   });
+  let stopBookingsFromHere = '';
+  const checkinDate = checkin.slice(8);
+  const checkinMonth = checkin.slice(5, 7);
+  if (checkinSelected && checkinMonth === month) {
+    bookingsMap[checkinDate] = true;
+    const bookedDates = Object.keys(bookingsMap).sort((a, b) => a - b);
+    stopBookingsFromHere = bookedDates[bookedDates.indexOf(checkinDate) + 1];
+  }
   const datesArr = dates.map((date) => {
-    if (bookingsMap[date]) {
+    if ((checkinSelected && month === checkinMonth && (date >= Number(stopBookingsFromHere) || date < Number(checkinDate)))
+      // || (checkinSelected && checkinMonth === moment(month, 'MM').subtract(1, 'month').format('MM'))
+      || bookingsMap[date]) {
+      console.log('here');
       return (
         <li className="booked">
           {date}
@@ -31,6 +42,8 @@ const Calendar = (props) => {
     );
   });
   if (calendarOpen) {
+    console.log(checkinSelected);
+    console.log(checkin);
     return (
       <div>
         <div>
@@ -75,6 +88,8 @@ Calendar.propTypes = {
   dates: PropTypes.arrayOf(PropTypes.number),
   selectDate: PropTypes.func,
   changeMonth: PropTypes.func,
+  checkin: PropTypes.string,
+  checkinSelected: PropTypes.bool,
 };
 
 Calendar.defaultProps = {
@@ -85,6 +100,8 @@ Calendar.defaultProps = {
   dates: [],
   selectDate: () => {},
   changeMonth: () => {},
+  checkin: '2018-01-01',
+  checkinSelected: false,
 };
 
 export default Calendar;

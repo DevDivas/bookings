@@ -3,8 +3,10 @@
 import React from 'react';
 import Header from './Header';
 import Dates from './Dates';
+import Pricing from './Pricing';
 
 const axios = require('axios');
+const moment = require('moment');
 
 class App extends React.Component {
   constructor() {
@@ -15,8 +17,9 @@ class App extends React.Component {
       checkin: 'Check In',
       checkout: 'Check Out',
       checkinSelected: false,
+      datesSelected: false,
       calendarOpen: false,
-
+      guests: 1,
     };
     this.selectDate = this.selectDate.bind(this);
     this.openCalendar = this.openCalendar.bind(this);
@@ -56,6 +59,7 @@ class App extends React.Component {
         checkout: newDate,
         checkinSelected: false,
         calendarOpen: false,
+        datesSelected: true,
       });
     } else {
       console.log('test')
@@ -77,7 +81,7 @@ class App extends React.Component {
 
   render() {
     const {
-      roomDetails, roomid, checkin, checkout, checkinSelected, calendarOpen,
+      roomDetails, roomid, checkin, checkout, checkinSelected, calendarOpen, datesSelected,
     } = this.state;
     return (
       <div>
@@ -92,6 +96,14 @@ class App extends React.Component {
           calendarOpen={calendarOpen}
           openCalendar={this.openCalendar}
         />
+        {datesSelected
+          && (
+            <Pricing
+              roomDetails={roomDetails}
+              stayLength={moment(checkout, 'YYYY-MM-DD').diff(moment(checkin, 'YYYY-MM-DD'), 'days')}
+            />
+          )
+        }
       </div>
     );
   }

@@ -108,6 +108,12 @@ const Guests = (props) => {
       {toggleGuests && (
         <div>
           {renderGuests}
+          <div>
+            {`${maxGuests} guests maximum. Infants don’t count toward the number of guests.`}
+          </div>
+          <button type="button" onClick={toggleGuestMenu}>
+            Close
+          </button>
         </div>
       )}
     </div>

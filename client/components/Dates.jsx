@@ -113,10 +113,10 @@ class Dates extends React.Component {
     } = this.props;
     return (
       <div>
-        <div>
-          <input type="text" value={checkin} onClick={openCalendar} />
-          <img alt="" />
-          <input type="text" value={checkout} onClick={openCalendar} />
+        <div className="datesHeader">
+          <input type="text" value={checkin} id="checkin" onClick={openCalendar} />
+          <img alt="" id="middleArrow" src="https://s3-us-west-1.amazonaws.com/fecimages/radatesdgray.png" />
+          <input type="text" value={checkout} id="checkout" onClick={openCalendar} />
         </div>
         <Calendar
           calendarOpen={calendarOpen}

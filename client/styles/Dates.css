@@ -1,0 +1,38 @@
+.datesHeader {
+  display: flex;
+  margin: auto;
+  text-align: center;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgb(219,219,219);
+  padding: 0;
+  border-radius: 2px;
+}
+
+#middleArrow {
+  height: 25px;
+  width: auto;
+}
+
+.datesHeader input {
+  border: none;
+  border-radius: 2px;
+  outline: none;
+}
+
+input:focus{
+  background-color: rgb(153,237,230);
+}
+
+#checkin {
+  /*padding: 10px;*/
+  margin: 5px;
+  width: 46%;
+}
+
+#checkout {
+  /*padding: 10px;*/
+  margin: 5px;
+  width: 46%;
+}

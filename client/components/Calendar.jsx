@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../styles/Calendar.css';
 
 const moment = require('moment');
 
@@ -59,44 +60,45 @@ const Calendar = (props) => {
       || shouldBlackoutNextMonths(checkinSelected, blackoutMonth, month, date, stopBookingsFromHere)
       || bookingsMap[date]) {
       return (
-        <li className="booked">
+        <li className={`booked dates${!date ? ' blank' : ''}`}>
+          {date}
+        </li>
+      );
+    } if (!date) {
+      return (
+        <li className="blank dates">
           {date}
         </li>
       );
     }
     // if the day is available
     return (
-      <li className="available">
-        <button type="button" onClick={() => { selectDate(`${year}-${month}-${date}`); }}>
-          {date}
-        </button>
+      <li className="available dates" onClick={() => { selectDate(`${year}-${month}-${date}`); }}>
+        {date}
       </li>
     );
   });
+
   if (calendarOpen) {
     return (
-      <div>
-        <div>
+      <div className="calendarContainer">
+        <div className="header">
           <span>
             <img alt="" />
-            <button type="button" onClick={() => { changeMonth('prev'); }}>
-              Left
-            </button>
+            <button type="button" id="calendarLeftArr" onClick={() => { changeMonth('prev'); }} />
           </span>
           <span>
             {`${moment(month).format('MMMM')} ${year}`}
           </span>
           <span>
             <img alt="" />
-            <button type="button" onClick={() => { changeMonth('next'); }}>
-              Right
-            </button>
+            <button type="button" id="calendarRightArr" onClick={() => { changeMonth('next'); }} />
           </span>
         </div>
-        <div>
+        <div className="calendar">
           <ul>
             {daysOfWeek.map(day => (
-              <li key={day}>
+              <li key={day} className="weekdays">
                 {day}
               </li>))}
           </ul>

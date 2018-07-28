@@ -1,0 +1,91 @@
+.calendarContainer {
+  position: fixed;
+  z-index: 1;
+  width: 350px;
+  top: 100px;
+  background-color: white;
+  border: 1px solid gray;
+  left: 50%;
+  float: left;
+  transform: translate(-50%);
+}
+
+ul {
+  padding: 0px;
+  margin: 0px;
+}
+.calendar {
+  width: 95%;
+  padding-bottom: 18px;
+  margin: auto;
+}
+
+.available {
+  color: black;
+  color: rgb(72,72,72);
+}
+
+.booked {
+  color: rgb(216,216,216);
+  text-decoration: line-through;
+}
+
+.weekdays {
+  display: inline-block;
+  width: 14.28%;
+  text-align: center;
+  color: rgb(117,117,117);
+}
+
+.dates {
+  display: inline-block;
+  list-style-type: none;
+  width: 14.2%;
+  text-align: center;
+/*  margin-bottom: 5px;*/
+  /*border: 1px solid;
+  border-color: rgb(216,216,216);*/
+  padding: 10px 0px 10px 0px;
+  margin: 0px;
+  white-space: normal;
+}
+
+.blank {
+  /*border-color: rgb(256,256,256) !important;*/
+}
+
+.header {
+  margin: auto;
+  width: 91%;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#calendarRightArr {
+  border: 1px solid rgb(228,231,231);
+  border-radius: 3px;
+  padding: 0px, 30px, 0px, 30px;
+  height: 33px;
+  width: 39px;
+  background-image: url('https://s3-us-west-1.amazonaws.com/fecimages/right-arrow.png');
+  background-size: auto 60%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#calendarLeftArr {
+  border: 1px solid rgb(228,231,231);
+  border-radius: 3px;
+  padding: 0px, 30px, 0px, 30px;
+  height: 33px;
+  width: 39px;
+  background-image: url('https://s3-us-west-1.amazonaws.com/fecimages/left-arrow.png');
+  background-size: auto 60%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+

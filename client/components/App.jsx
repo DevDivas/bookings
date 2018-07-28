@@ -114,7 +114,10 @@ class App extends React.Component {
 
   handleBookClick() {
     const {
-      checkin, checkout, datesSelected, roomid,
+      checkin,
+      checkout,
+      datesSelected,
+      roomid,
     } = this.state;
     if (datesSelected) {
       axios.post(`/rooms/${roomid}/bookings`, {

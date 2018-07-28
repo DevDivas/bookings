@@ -14,9 +14,14 @@ ul {
   padding: 0px;
   margin: 0px;
 }
+
+p {
+  margin: 0;
+}
+
 .calendar {
   width: 95%;
-  padding-bottom: 18px;
+  padding-bottom: 5px;
   margin: auto;
 }
 
@@ -89,3 +94,7 @@ ul {
   background-position: center;
 }
 
+.calendarFooter {
+  padding-left: 10px;
+  padding-bottom: 10px;
+}

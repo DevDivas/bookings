@@ -28,6 +28,7 @@ class App extends React.Component {
       toggleGuests: false,
       datesRerender: false,
       blackoutMonth: '',
+      updated: '2018-07-25',
     };
     this.selectDate = this.selectDate.bind(this);
     this.openCalendar = this.openCalendar.bind(this);
@@ -139,6 +140,7 @@ class App extends React.Component {
           checkout: 'Check Out',
           checkinSelected: false,
           datesSelected: false,
+          updated: moment().format('YYYY-MM-DD'),
         });
       }).catch((error) => {
         console.log(error);
@@ -161,7 +163,9 @@ class App extends React.Component {
       toggleGuests,
       datesRerender,
       blackoutMonth,
+      updated,
     } = this.state;
+    console.log(updated);
     return (
       <div>
         <Header roomDetails={roomDetails} />
@@ -178,6 +182,7 @@ class App extends React.Component {
           resetDatesRender={this.resetDatesRender}
           blackoutMonth={blackoutMonth}
           setBlackoutMonth={this.setBlackoutMonth}
+          updated={updated}
         />
         <Guests
           numGuests={numGuests}

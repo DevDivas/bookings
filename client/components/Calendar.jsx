@@ -6,8 +6,8 @@ const moment = require('moment');
 
 const Calendar = (props) => {
   const {
-    calendarOpen, month, year, bookings,
-    dates, selectDate, changeMonth, checkin, checkinSelected, blackoutMonth, setBlackoutMonth,
+    calendarOpen, month, year, bookings, dates, selectDate,
+    changeMonth, checkin, checkinSelected, updated, blackoutMonth, setBlackoutMonth,
   } = props;
   const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   const bookingsMap = {};
@@ -79,6 +79,11 @@ const Calendar = (props) => {
     );
   });
 
+  const daysAgo = (lastUpdate) => {
+    const diff = moment().diff(moment(lastUpdate, 'YYYY-MM-DD'), 'days');
+    return diff ? ` ${diff} days ago` : ' today';
+  };
+
   if (calendarOpen) {
     return (
       <div className="calendarContainer">
@@ -106,6 +111,15 @@ const Calendar = (props) => {
             {datesArr}
           </ul>
         </div>
+        <div className="calendarFooter">
+          <p>
+            2 nights minimum stay
+          </p>
+          <p>
+            Updated
+            {daysAgo(updated)}
+          </p>
+        </div>
       </div>
     );
   }
@@ -124,6 +138,7 @@ Calendar.propTypes = {
   checkinSelected: PropTypes.bool,
   blackoutMonth: PropTypes.string,
   setBlackoutMonth: PropTypes.func.isRequired,
+  updated: PropTypes.string.isRequired,
 };
 
 Calendar.defaultProps = {
@@ -137,6 +152,7 @@ Calendar.defaultProps = {
   checkin: '2018-01-01',
   checkinSelected: false,
   blackoutMonth: '',
+  //updated: '2018-07-23',
 };
 
 export default Calendar;

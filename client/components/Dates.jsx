@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Calendar from './Calendar';
+import '../styles/Dates.css';
 
 const axios = require('axios');
 const moment = require('moment');
@@ -108,7 +109,7 @@ class Dates extends React.Component {
     } = this.state;
     const {
       selectDate, checkin, checkout, checkinSelected,
-      calendarOpen, openCalendar, blackoutMonth, setBlackoutMonth,
+      calendarOpen, openCalendar, updated, blackoutMonth, setBlackoutMonth,
     } = this.props;
     return (
       <div>
@@ -129,6 +130,7 @@ class Dates extends React.Component {
           checkinSelected={checkinSelected}
           blackoutMonth={blackoutMonth}
           setBlackoutMonth={setBlackoutMonth}
+          updated={updated}
         />
       </div>
     );
@@ -147,6 +149,7 @@ Dates.propTypes = {
   resetDatesRender: PropTypes.func,
   blackoutMonth: PropTypes.string,
   setBlackoutMonth: PropTypes.func.isRequired,
+  updated: PropTypes.string,
 };
 
 Dates.defaultProps = {
@@ -160,6 +163,7 @@ Dates.defaultProps = {
   datesRerender: false,
   resetDatesRender: () => {},
   blackoutMonth: '',
+  updated: moment().format('YYYY-MM-DD'),
 };
 
 export default Dates;

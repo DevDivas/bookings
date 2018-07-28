@@ -87,38 +87,40 @@ const Calendar = (props) => {
   if (calendarOpen) {
     return (
       <div className="calendarContainer">
-        <div className="header">
-          <span>
-            <img alt="" />
-            <button type="button" id="calendarLeftArr" onClick={() => { changeMonth('prev'); }} />
-          </span>
-          <span>
-            {`${moment(month).format('MMMM')} ${year}`}
-          </span>
-          <span>
-            <img alt="" />
-            <button type="button" id="calendarRightArr" onClick={() => { changeMonth('next'); }} />
-          </span>
-        </div>
-        <div className="calendar">
-          <ul>
-            {daysOfWeek.map(day => (
-              <li key={day} className="weekdays">
-                {day}
-              </li>))}
-          </ul>
-          <ul>
-            {datesArr}
-          </ul>
-        </div>
-        <div className="calendarFooter">
-          <p>
-            2 nights minimum stay
-          </p>
-          <p>
-            Updated
-            {daysAgo(updated)}
-          </p>
+        <div className="innerCalContainer">
+          <div className="header">
+            <span>
+              <img alt="" />
+              <button type="button" id="calendarLeftArr" onClick={() => { changeMonth('prev'); }} />
+            </span>
+            <span>
+              {`${moment(month).format('MMMM')} ${year}`}
+            </span>
+            <span>
+              <img alt="" />
+              <button type="button" id="calendarRightArr" onClick={() => { changeMonth('next'); }} />
+            </span>
+          </div>
+          <div className="calendar">
+            <ul>
+              {daysOfWeek.map(day => (
+                <li key={day} className="weekdays">
+                  {day}
+                </li>))}
+            </ul>
+            <ul>
+              {datesArr}
+            </ul>
+          </div>
+          <div className="calendarFooter">
+            <p>
+              2 nights minimum stay
+            </p>
+            <p>
+              Updated
+              {daysAgo(updated)}
+            </p>
+          </div>
         </div>
       </div>
     );

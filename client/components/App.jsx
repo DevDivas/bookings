@@ -26,11 +26,14 @@ class App extends React.Component {
         infants: 0,
       },
       toggleGuests: false,
+      datesRerender: false,
     };
     this.selectDate = this.selectDate.bind(this);
     this.openCalendar = this.openCalendar.bind(this);
     this.changeGuestNum = this.changeGuestNum.bind(this);
     this.toggleGuestMenu = this.toggleGuestMenu.bind(this);
+    this.resetDatesRender = this.resetDatesRender.bind(this);
+    this.handleBookClick = this.handleBookClick.bind(this);
   }
 
   componentDidMount() {
@@ -102,6 +105,42 @@ class App extends React.Component {
     });
   }
 
+  resetDatesRender() {
+    const { datesRerender } = this.state;
+    this.setState({
+      datesRerender: !datesRerender,
+    });
+  }
+
+  handleBookClick() {
+    const {
+      checkin,
+      checkout,
+      datesSelected,
+      roomid,
+    } = this.state;
+    if (datesSelected) {
+      axios.post(`/rooms/${roomid}/bookings`, {
+        startDate: checkin,
+        endDate: checkout,
+      }).then((response) => {
+        console.log(response);
+        alert('Thank you! Your Cloudbnb stay has been booked!');
+        this.setState({
+          datesRerender: true,
+          checkin: 'Check In',
+          checkout: 'Check Out',
+          checkinSelected: false,
+          datesSelected: false,
+        });
+      }).catch((error) => {
+        console.log(error);
+      });
+    } else {
+      alert('Please select dates first!');
+    }
+  }
+
   render() {
     const {
       roomDetails,
@@ -113,6 +152,7 @@ class App extends React.Component {
       datesSelected,
       numGuests,
       toggleGuests,
+      datesRerender,
     } = this.state;
     return (
       <div>
@@ -126,6 +166,8 @@ class App extends React.Component {
           checkinSelected={checkinSelected}
           calendarOpen={calendarOpen}
           openCalendar={this.openCalendar}
+          datesRerender={datesRerender}
+          resetDatesRender={this.resetDatesRender}
         />
         <Guests
           numGuests={numGuests}
@@ -142,6 +184,12 @@ class App extends React.Component {
             />
           )
         }
+        <button type="button" onClick={this.handleBookClick}>
+          Request to Book
+        </button>
+        <div>
+          You won’t be charged yet
+        </div>
       </div>
     );
   }

@@ -18,23 +18,21 @@ class Dates extends React.Component {
       id: roomid,
     };
     this.changeMonth = this.changeMonth.bind(this);
+    this.fetch = this.fetch.bind(this);
   }
 
   componentDidMount() {
-    const { id } = this.state;
-    axios.get(`/rooms/${id}/bookings`)
-      .then((response) => {
-        const { currentMonth, numDaysInMonth } = this.state;
-        const roomBookings = response.data;
-        const monthBookings = this.getCurrentMonthBookings(currentMonth, roomBookings, numDaysInMonth);
-        this.setState({
-          bookings: roomBookings,
-          monthlyBookings: monthBookings,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    this.fetch();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { datesRerender, resetDatesRender } = this.props;
+    if (datesRerender !== prevProps.datesRerender) {
+      if (datesRerender === true) {
+        this.fetch();
+        resetDatesRender();
+      }
+    }
   }
 
   getCurrentMonthBookings(currentMonth, allBookings, numDaysInMonth) {
@@ -57,6 +55,23 @@ class Dates extends React.Component {
       return bookingsPerMonth;
     }, []);
     return monthBookings;
+  }
+
+  fetch() {
+    const { id } = this.state;
+    axios.get(`/rooms/${id}/bookings`)
+      .then((response) => {
+        const { currentMonth, numDaysInMonth } = this.state;
+        const roomBookings = response.data;
+        const monthBookings = this.getCurrentMonthBookings(currentMonth, roomBookings, numDaysInMonth);
+        this.setState({
+          bookings: roomBookings,
+          monthlyBookings: monthBookings,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   createMonth() {
@@ -125,6 +140,8 @@ Dates.propTypes = {
   checkinSelected: PropTypes.bool,
   calendarOpen: PropTypes.bool,
   openCalendar: PropTypes.func,
+  datesRerender: PropTypes.bool,
+  resetDatesRender: PropTypes.func,
 };
 
 Dates.defaultProps = {
@@ -135,6 +152,8 @@ Dates.defaultProps = {
   checkinSelected: false,
   calendarOpen: false,
   openCalendar: () => {},
+  datesRerender: false,
+  resetDatesRender: () => {},
 };
 
 export default Dates;

@@ -51,7 +51,7 @@ app.post('/rooms/:id/bookings', (req, res) => {
     if (err) {
       throw err;
     } else {
-      res.send();
+      res.send('dates posted!');
     }
   });
 });

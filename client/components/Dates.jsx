@@ -56,7 +56,7 @@ class Dates extends React.Component {
     }, []);
     return monthBookings;
   }
-
+  
   fetch() {
     const { id } = this.state;
     axios.get(`/rooms/${id}/bookings`)
@@ -107,7 +107,8 @@ class Dates extends React.Component {
       monthlyBookings, currentMonth, currentYear,
     } = this.state;
     const {
-      selectDate, checkin, checkout, checkinSelected, calendarOpen, openCalendar,
+      selectDate, checkin, checkout, checkinSelected,
+      calendarOpen, openCalendar, blackoutMonth, setBlackoutMonth,
     } = this.props;
     return (
       <div>
@@ -126,6 +127,8 @@ class Dates extends React.Component {
           changeMonth={this.changeMonth}
           checkin={checkin}
           checkinSelected={checkinSelected}
+          blackoutMonth={blackoutMonth}
+          setBlackoutMonth={setBlackoutMonth}
         />
       </div>
     );
@@ -142,6 +145,8 @@ Dates.propTypes = {
   openCalendar: PropTypes.func,
   datesRerender: PropTypes.bool,
   resetDatesRender: PropTypes.func,
+  blackoutMonth: PropTypes.string,
+  setBlackoutMonth: PropTypes.func.isRequired,
 };
 
 Dates.defaultProps = {
@@ -154,6 +159,7 @@ Dates.defaultProps = {
   openCalendar: () => {},
   datesRerender: false,
   resetDatesRender: () => {},
+  blackoutMonth: '',
 };
 
 export default Dates;

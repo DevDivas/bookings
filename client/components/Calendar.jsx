@@ -27,10 +27,10 @@ const Calendar = (props) => {
     const bookedDates = Object.keys(bookingsMap).sort((a, b) => a - b);
     stopBookingsFromHere = bookedDates[bookedDates.indexOf(checkinDay) + 1];
   } else if (checkinSelected
+    // figure out what the next booking is if no dates are blocked off for the same checkin month
     && Object.keys(bookingsMap).length > 0
     && blackoutMonth === ''
     && moment(month, 'MM').isAfter(moment(checkinMonth, 'MM'))) {
-    // figure out what the next booking is if no dates are blocked off for the same checkin month
     setBlackoutMonth(month);
   }
   if (month === blackoutMonth) {
@@ -38,29 +38,33 @@ const Calendar = (props) => {
     stopBookingsFromHere = bookedDates[0];
   }
 
+  const datesAreInSameMonth = (isCheckinSelected, curMonth, cIMonth, curDate, sBFH, cIDay) => (isCheckinSelected
+    && curMonth === cIMonth && (curDate >= Number(sBFH) || curDate < Number(cIDay)));
+
+  const shouldBlackoutPrevMonths = (isCheckinSelected, curMonth, cIMonth) => (isCheckinSelected
+    && moment(curMonth, 'MM').isBefore(moment(cIMonth, 'MM')));
+
+  const shouldBlackoutNextMonths = (isCheckinSelected, bMonth, curMonth, curDate, sBFH) => (isCheckinSelected
+    && bMonth !== ''
+    // blackout everything after this date if you are in the same month
+    && ((curMonth === bMonth && curDate >= Number(sBFH))
+    // black out everything after that
+    || moment(curMonth, 'MM').isAfter(moment(bMonth, 'MM'))));
 
   // create jsx for each date, styling depends on whether the date is available for booking or not
   // TODO: CLEAN THIS UP
   const datesArr = dates.map((date) => {
     // if the day is not available for booking
-    if ((checkinSelected && month === checkinMonth
-      // blackout dates in same month that are not possible after checkin day selection
-      && (date >= Number(stopBookingsFromHere) || date < Number(checkinDay)))
+    if (datesAreInSameMonth(checkinSelected, month, checkinMonth, date, stopBookingsFromHere, checkinDay)
       // blackout all days before checkin (prev months)
-      || (checkinSelected && moment(month, 'MM').isBefore(moment(checkinMonth, 'MM')))
+      || shouldBlackoutPrevMonths(checkinSelected, month, checkinMonth)
       // we have found first booking following checkin date (if there are none in the same month)
-      || (checkinSelected && blackoutMonth !== ''
-      // blackout everything after this date if you are in the same month
-      && ((month === blackoutMonth && date >= Number(stopBookingsFromHere))
-      // black out everything after that
-      || moment(month, 'MM').isAfter(moment(blackoutMonth, 'MM'))))
+      || shouldBlackoutNextMonths(checkinSelected, blackoutMonth, month, date, stopBookingsFromHere)
       // this date is booked already (regardless of whether checkin day was selected)
       || bookingsMap[date]) {
       return (
         <li className="booked">
-          <button type="button">
-            {date}
-          </button>
+          {date}
         </li>
       );
     }

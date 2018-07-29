@@ -44,3 +44,7 @@ button {
 input {
   font-family: 'Nunito Sans', sans-serif;
 }
+
+hr {
+  border: solid .5px rgb(219,219,219);
+}

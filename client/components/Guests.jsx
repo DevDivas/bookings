@@ -107,6 +107,16 @@ const Guests = (props) => {
             </span>
           )}
         </div>
+        {toggleGuests && (
+          <div>
+            <img alt="" className="arrowImg" src="https://s3-us-west-1.amazonaws.com/fecimages/up-arrow.png" />
+          </div>
+        )}
+        {!toggleGuests && (
+          <div>
+            <img alt="" className="arrowImg" src="https://s3-us-west-1.amazonaws.com/fecimages/down-arrow.png" />
+          </div>
+        )}
       </button>
       {toggleGuests && (
         <div className="guestsContainer">

@@ -119,3 +119,13 @@
 .inactive {
   opacity: .5;
 }
+
+.arrowImg {
+  height: 20px;
+  width: auto;
+  vertical-align: middle;
+  text-align: right;
+  margin-right: 5px;
+  margin-top: 1px;
+  float: right;
+}

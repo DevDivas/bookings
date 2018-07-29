@@ -108,12 +108,8 @@ class Dates extends React.Component {
       monthlyBookings, currentMonth, currentYear,
     } = this.state;
     const {
-<<<<<<< HEAD
       selectDate, checkin, checkout, checkinSelected,
       calendarOpen, openCalendar, updated, blackoutMonth, setBlackoutMonth,
-=======
-      selectDate, checkinSelected, checkin, checkout, calendarOpen, openCalendar, updated,
->>>>>>> Continue adding styling
     } = this.props;
 
     return (

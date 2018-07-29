@@ -43,6 +43,7 @@ p {
 
 .available:hover {
   background-color: rgb(219,219,219);
+  cursor: pointer;
 } 
 
 .booked {

@@ -6,13 +6,8 @@ const moment = require('moment');
 
 const Calendar = (props) => {
   const {
-<<<<<<< HEAD
     calendarOpen, month, year, bookings, dates, selectDate,
     changeMonth, checkin, checkinSelected, updated, blackoutMonth, setBlackoutMonth,
-=======
-    calendarOpen, month, year, bookings, dates,
-    selectDate, changeMonth, checkin, checkout, checkinSelected, updated,
->>>>>>> Continue adding styling
   } = props;
   const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   const bookingsMap = {};
@@ -32,7 +27,6 @@ const Calendar = (props) => {
     bookingsMap[checkinDay] = true;
     const bookedDates = Object.keys(bookingsMap).sort((a, b) => a - b);
     stopBookingsFromHere = bookedDates[bookedDates.indexOf(checkinDay) + 1];
-<<<<<<< HEAD
   } else if (checkinSelected
     // figure out what the next booking is if no dates are blocked off for the same checkin month
     && Object.keys(bookingsMap).length > 0
@@ -43,9 +37,7 @@ const Calendar = (props) => {
   if (month === blackoutMonth) {
     const bookedDates = Object.keys(bookingsMap).sort((a, b) => a - b);
     stopBookingsFromHere = bookedDates[0];
-=======
     delete bookingsMap[checkinDay];
->>>>>>> Continue adding styling
   }
 
   const datesAreInSameMonth = (isCheckinSelected, curMonth, cIMonth, curDate, sBFH, cIDay) => (isCheckinSelected
@@ -81,13 +73,10 @@ const Calendar = (props) => {
         </li>
       );
     }
-<<<<<<< HEAD
     // if the day is available
-=======
     const selectedDate = (month === checkinMonth && Number(checkinDay) === date)
       || (month === moment(checkout).format('MM') && date === Number(moment(checkout).format('DD')));
     const betweenDates = (date > Number(checkinDay) && date < Number(moment(checkout).format('DD')));
->>>>>>> Continue adding styling
     return (
       <li
         className={`available dates${selectedDate ? ' selectedDate' : ''}${betweenDates ? ' betweenDates' : ''}`}

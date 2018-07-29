@@ -19,7 +19,7 @@ const Pricing = (props) => {
               {basePrice}
             </td>
           </tr>
-          <tr lassName="row">
+          <tr className="row">
             <td className="cell chargeType">
               Service Fee
             </td>
@@ -27,7 +27,7 @@ const Pricing = (props) => {
               {`$${roomDetails.serviceFee}`}
             </td>
           </tr>
-          <tr lassName="row">
+          <tr className="row">
             <td className="cell chargeType">
               Cleaning Fee
             </td>
@@ -35,7 +35,7 @@ const Pricing = (props) => {
               {`$${roomDetails.cleaningFee}`}
             </td>
           </tr>
-          <tr lassName="row">
+          <tr className="row">
             <td className="cell chargeType bottomRow">
               <b>
                 Total

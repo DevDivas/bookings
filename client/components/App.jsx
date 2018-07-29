@@ -27,13 +27,14 @@ class App extends React.Component {
       },
       toggleGuests: false,
       datesRerender: false,
+      blackoutMonth: '',
     };
     this.selectDate = this.selectDate.bind(this);
     this.openCalendar = this.openCalendar.bind(this);
     this.changeGuestNum = this.changeGuestNum.bind(this);
     this.toggleGuestMenu = this.toggleGuestMenu.bind(this);
     this.resetDatesRender = this.resetDatesRender.bind(this);
-    this.handleBookClick = this.handleBookClick.bind(this);
+    this.setBlackoutMonth = this.setBlackoutMonth.bind(this);
   }
 
   componentDidMount() {
@@ -55,6 +56,12 @@ class App extends React.Component {
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  setBlackoutMonth(month) {
+    this.setState({
+      blackoutMonth: month,
+    });
   }
 
   selectDate(date) {
@@ -153,6 +160,7 @@ class App extends React.Component {
       numGuests,
       toggleGuests,
       datesRerender,
+      blackoutMonth,
     } = this.state;
     return (
       <div>
@@ -168,6 +176,8 @@ class App extends React.Component {
           openCalendar={this.openCalendar}
           datesRerender={datesRerender}
           resetDatesRender={this.resetDatesRender}
+          blackoutMonth={blackoutMonth}
+          setBlackoutMonth={this.setBlackoutMonth}
         />
         <Guests
           numGuests={numGuests}

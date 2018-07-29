@@ -6,8 +6,13 @@ const moment = require('moment');
 
 const Calendar = (props) => {
   const {
+<<<<<<< HEAD
     calendarOpen, month, year, bookings, dates, selectDate,
     changeMonth, checkin, checkinSelected, updated, blackoutMonth, setBlackoutMonth,
+=======
+    calendarOpen, month, year, bookings, dates,
+    selectDate, changeMonth, checkin, checkout, checkinSelected, updated,
+>>>>>>> Continue adding styling
   } = props;
   const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   const bookingsMap = {};
@@ -27,6 +32,7 @@ const Calendar = (props) => {
     bookingsMap[checkinDay] = true;
     const bookedDates = Object.keys(bookingsMap).sort((a, b) => a - b);
     stopBookingsFromHere = bookedDates[bookedDates.indexOf(checkinDay) + 1];
+<<<<<<< HEAD
   } else if (checkinSelected
     // figure out what the next booking is if no dates are blocked off for the same checkin month
     && Object.keys(bookingsMap).length > 0
@@ -37,6 +43,9 @@ const Calendar = (props) => {
   if (month === blackoutMonth) {
     const bookedDates = Object.keys(bookingsMap).sort((a, b) => a - b);
     stopBookingsFromHere = bookedDates[0];
+=======
+    delete bookingsMap[checkinDay];
+>>>>>>> Continue adding styling
   }
 
   const datesAreInSameMonth = (isCheckinSelected, curMonth, cIMonth, curDate, sBFH, cIDay) => (isCheckinSelected
@@ -59,6 +68,7 @@ const Calendar = (props) => {
       || shouldBlackoutPrevMonths(checkinSelected, month, checkinMonth)
       || shouldBlackoutNextMonths(checkinSelected, blackoutMonth, month, date, stopBookingsFromHere)
       || bookingsMap[date]) {
+      // console.log(Object.keys(bookingsMap));
       return (
         <li className={`booked dates${!date ? ' blank' : ''}`}>
           {date}
@@ -71,9 +81,18 @@ const Calendar = (props) => {
         </li>
       );
     }
+<<<<<<< HEAD
     // if the day is available
+=======
+    const selectedDate = (month === checkinMonth && Number(checkinDay) === date)
+      || (month === moment(checkout).format('MM') && date === Number(moment(checkout).format('DD')));
+    const betweenDates = (date > Number(checkinDay) && date < Number(moment(checkout).format('DD')));
+>>>>>>> Continue adding styling
     return (
-      <li className="available dates" onClick={() => { selectDate(`${year}-${month}-${date}`); }}>
+      <li
+        className={`available dates${selectedDate ? ' selectedDate' : ''}${betweenDates ? ' betweenDates' : ''}`}
+        onClick={() => { selectDate(`${year}-${month}-${date}`); }}
+      >
         {date}
       </li>
     );
@@ -93,7 +112,7 @@ const Calendar = (props) => {
               <img alt="" />
               <button type="button" id="calendarLeftArr" onClick={() => { changeMonth('prev'); }} />
             </span>
-            <span>
+            <span className="monthLabel">
               {`${moment(month).format('MMMM')} ${year}`}
             </span>
             <span>
@@ -114,7 +133,10 @@ const Calendar = (props) => {
           </div>
           <div className="calendarFooter">
             <p>
-              2 nights minimum stay
+              <b>
+                {'1 night '}
+              </b>
+              minimum stay
             </p>
             <p>
               Updated
@@ -137,6 +159,7 @@ Calendar.propTypes = {
   selectDate: PropTypes.func,
   changeMonth: PropTypes.func,
   checkin: PropTypes.string,
+  checkout: PropTypes.string,
   checkinSelected: PropTypes.bool,
   blackoutMonth: PropTypes.string,
   setBlackoutMonth: PropTypes.func.isRequired,
@@ -152,6 +175,7 @@ Calendar.defaultProps = {
   selectDate: () => {},
   changeMonth: () => {},
   checkin: '2018-01-01',
+  checkout: '2018-01-01',
   checkinSelected: false,
   blackoutMonth: '',
   //updated: '2018-07-23',

@@ -168,7 +168,9 @@ class App extends React.Component {
       updated,
     } = this.state;
     return (
-      <div>
+      <div className="overallContainer">
+        <div className="headerContainer" />
+
         <Header roomDetails={roomDetails} />
         <hr />
         <div className="label">
@@ -206,10 +208,12 @@ class App extends React.Component {
             />
           )
         }
-        <button type="button" className="bookingButton" onClick={this.handleBookClick}>
-          Request to Book
-        </button>
-        <div className="label">
+        <div className="buttonHolder">
+          <button type="button" className="bookingButton" onClick={this.handleBookClick}>
+            Request to Book
+          </button>
+        </div>
+        <div className="label noCharge">
           You won’t be charged yet
         </div>
       </div>

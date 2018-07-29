@@ -9,11 +9,11 @@ const Headers = ({ roomDetails }) => (
       <span className="roomPrice">
         {`$${roomDetails.roomRateBase} `}
       </span>
-      <span className="label">
+      <span className="labelForPrice">
         per Night
       </span>
     </div>
-    <div>
+    <div className="starsContainer">
       <Stars num={roomDetails.stars} />
     </div>
   </div>

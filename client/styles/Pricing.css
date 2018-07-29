@@ -1,0 +1,29 @@
+table {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.row {
+
+}
+
+.cell {
+  font-size: 14px;
+  line-height: 18px;
+  padding: 10px 0px;
+  border-bottom: 1px solid rgb(219,219,219);
+  color: rgb(72,72,72);
+}
+
+.type {
+  width: 70%;
+}
+
+.price {
+  width: 30%;
+  text-align: right;
+}
+
+.bottomRow {
+  border-bottom: none !important;
+}

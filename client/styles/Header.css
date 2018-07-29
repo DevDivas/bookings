@@ -3,7 +3,11 @@
   font-size: 22px;
 }
 
-.label {
+.labelForPrice {
   font-size: 12px;
   font-weight: 600;
+}
+
+.starsContainer {
+  margin-bottom: 16px;
 }

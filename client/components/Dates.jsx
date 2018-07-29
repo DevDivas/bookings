@@ -108,15 +108,32 @@ class Dates extends React.Component {
       monthlyBookings, currentMonth, currentYear,
     } = this.state;
     const {
+<<<<<<< HEAD
       selectDate, checkin, checkout, checkinSelected,
       calendarOpen, openCalendar, updated, blackoutMonth, setBlackoutMonth,
+=======
+      selectDate, checkinSelected, checkin, checkout, calendarOpen, openCalendar, updated,
+>>>>>>> Continue adding styling
     } = this.props;
+
     return (
       <div>
         <div className="datesHeader">
-          <input type="text" value={checkin} className="dateInput" id="checkin" onClick={openCalendar} />
+          <input
+            type="text"
+            value={checkin === 'Check In' ? 'Check In' : moment(checkin, 'YYYY-MM-DD').format('MM/DD/YYYY')}
+            className="dateInput"
+            id="checkin"
+            onClick={openCalendar}
+          />
           <img alt="" id="middleArrow" src="https://s3-us-west-1.amazonaws.com/fecimages/radatesdgray.png" />
-          <input type="text" value={checkout} className={`dateInput${checkinSelected ? ' selectCheckout' : ''}`} id="checkout" onClick={openCalendar} />
+          <input
+            type="text"
+            value={checkout === 'Check Out' ? 'Check Out' : moment(checkout, 'YYYY-MM-DD').format('MM/DD/YYYY')}
+            className={`dateInput${checkinSelected ? ' selectCheckout' : ''}`}
+            id="checkout"
+            onClick={openCalendar}
+          />
         </div>
         <Calendar
           calendarOpen={calendarOpen}
@@ -127,6 +144,7 @@ class Dates extends React.Component {
           selectDate={selectDate}
           changeMonth={this.changeMonth}
           checkin={checkin}
+          checkout={checkout}
           checkinSelected={checkinSelected}
           blackoutMonth={blackoutMonth}
           setBlackoutMonth={setBlackoutMonth}

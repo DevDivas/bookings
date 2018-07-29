@@ -27,33 +27,33 @@ const Guests = (props) => {
       maxGuestsReached = true;
     }
     return (
-      <div className="toggleContainer" style={{ display: 'table-cell' }}>
-        <div className="minus" style={{ display: 'table-cell' }}>
-          <button
-            type="button"
-            onClick={() => {
-              if (number) {
-                changeGuestNum(guestType, '-');
-              }
-            }}
-          >
-            -
-          </button>
-        </div>
-        <div className="numGuests" style={{ display: 'table-cell' }}>
-          {number}
-        </div>
-        <div className="plus" style={{ display: 'table-cell' }}>
-          <button
-            type="button"
-            onClick={() => {
-              if (!maxGuestsReached || (maxGuestsReached && guestType === 'Infants')) {
-                changeGuestNum(guestType, '+');
-              }
-            }}
-          >
-            +
-          </button>
+      <div className="toggleContainer dtc">
+        <div className="innerToggleContainer">
+          <div className="minus dtc">
+            <button
+              type="button"
+              className={`minusButton guestsButtons${number && (numGuests.adults > 1) ? '' : ' inactive'}`}
+              onClick={() => {
+                if (number && numGuests.adults > 1) {
+                  changeGuestNum(guestType, '-');
+                }
+              }}
+            />
+          </div>
+          <div className="numGuests dtc">
+            {number}
+          </div>
+          <div className="plus dtc">
+            <button
+              type="button"
+              className={`addButton guestsButtons${maxGuestsReached && guestType !== 'Infants' ? ' inactive' : ''}`}
+              onClick={() => {
+                if (!maxGuestsReached || (maxGuestsReached && guestType === 'Infants')) {
+                  changeGuestNum(guestType, '+');
+                }
+              }}
+            />
+          </div>
         </div>
       </div>
     );
@@ -78,12 +78,12 @@ const Guests = (props) => {
   const guests = [adults, children, infants];
 
   const renderGuests = guests.map(guestType => (
-    <div style={{ display: 'table' }}>
-      <div style={{ display: 'table-cell' }}>
+    <div className="dt guestsModal">
+      <div className="guestTypeLabel dtc">
         <div>
           {guestType.title}
         </div>
-        <div>
+        <div className="labelSubtitle">
           {guestType.subtitle}
         </div>
       </div>
@@ -109,14 +109,16 @@ const Guests = (props) => {
         </div>
       </button>
       {toggleGuests && (
-        <div>
+        <div className="guestsContainer">
           {renderGuests}
-          <div>
-            {`${maxGuests} guests maximum. Infants don’t count toward the number of guests.`}
+          <div className="guestsModalFooter">
+            <div className="maxGuestsText">
+              {`${maxGuests} guests maximum. Infants don’t count toward the number of guests.`}
+            </div>
+            <button type="button" className="guestsCloseButton" onClick={toggleGuestMenu}>
+              Close
+            </button>
           </div>
-          <button type="button" onClick={toggleGuestMenu}>
-            Close
-          </button>
         </div>
       )}
     </div>

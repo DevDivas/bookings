@@ -10,6 +10,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
+app.get('/rooms/:id', (req, res) => {
+  res.status(200).send('Hello');
+});
+
 app.get('/rooms/:id/bookings', (req, res) => {
   db.getAllBookings([req.params.id], (err, bookingInfo) => {
     if (err) {
@@ -20,21 +24,21 @@ app.get('/rooms/:id/bookings', (req, res) => {
   });
 });
 
-app.get('/rooms/:id/bookings/:month', (req, res) => {
-  db.getAllBookings([req.params.id], (err, bookingInfo) => {
-    if (err) {
-      throw err;
-    } else {
-      const monthlyBookings = bookingInfo.reduce((month, booking) => {
-        if (booking.start_date.getMonth() + 1 === Number(req.params.month)) {
-          month.push(booking);
-        }
-        return month;
-      }, []);
-      res.send(monthlyBookings);
-    }
-  });
-});
+// app.get('/rooms/:id/bookings/:month', (req, res) => {
+//   db.getAllBookings([req.params.id], (err, bookingInfo) => {
+//     if (err) {
+//       throw err;
+//     } else {
+//       const monthlyBookings = bookingInfo.reduce((month, booking) => {
+//         if (booking.start_date.getMonth() + 1 === Number(req.params.month)) {
+//           month.push(booking);
+//         }
+//         return month;
+//       }, []);
+//       res.send(monthlyBookings);
+//     }
+//   });
+// });
 
 app.get('/rooms/:id/room', (req, res) => {
   db.getRoomInfo([req.params.id], (err, roomInfo) => {
@@ -56,4 +60,4 @@ app.post('/rooms/:id/bookings', (req, res) => {
   });
 });
 
-app.listen(3003, () => console.log('Listening on port 3003'));
+module.exports = app;

@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/Guests.css';
 
 const Guests = (props) => {
   const {
@@ -92,19 +93,21 @@ const Guests = (props) => {
 
   return (
     <div>
-      <div onClick={toggleGuestMenu}>
-        <span>
-          {display}
-        </span>
-        {numGuests.infants > 0 && (
+      <button type="button" className="guestsDisplay" onClick={toggleGuestMenu}>
+        <div className={`guestsDisplayInner${toggleGuests ? ' highlight' : ''}`}>
           <span>
-            ,
-            <span>
-              {` ${infantsDisplay}`}
-            </span>
+            {display}
           </span>
-        )}
-      </div>
+          {numGuests.infants > 0 && (
+            <span>
+              ,
+              <span>
+                {` ${infantsDisplay}`}
+              </span>
+            </span>
+          )}
+        </div>
+      </button>
       {toggleGuests && (
         <div>
           {renderGuests}

@@ -7,7 +7,7 @@ const moment = require('moment');
 const Calendar = (props) => {
   const {
     calendarOpen, month, year, bookings, dates, selectDate,
-    changeMonth, checkin, checkinSelected, updated, blackoutMonth, setBlackoutMonth,
+    changeMonth, checkin, checkinSelected, checkout, updated, blackoutMonth, setBlackoutMonth,
   } = props;
   const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   const bookingsMap = {};
@@ -27,6 +27,7 @@ const Calendar = (props) => {
     bookingsMap[checkinDay] = true;
     const bookedDates = Object.keys(bookingsMap).sort((a, b) => a - b);
     stopBookingsFromHere = bookedDates[bookedDates.indexOf(checkinDay) + 1];
+    delete bookingsMap[checkinDay];
   } else if (checkinSelected
     // figure out what the next booking is if no dates are blocked off for the same checkin month
     && Object.keys(bookingsMap).length > 0
@@ -37,7 +38,6 @@ const Calendar = (props) => {
   if (month === blackoutMonth) {
     const bookedDates = Object.keys(bookingsMap).sort((a, b) => a - b);
     stopBookingsFromHere = bookedDates[0];
-    delete bookingsMap[checkinDay];
   }
 
   const datesAreInSameMonth = (isCheckinSelected, curMonth, cIMonth, curDate, sBFH, cIDay) => (isCheckinSelected

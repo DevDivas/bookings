@@ -1,0 +1,19 @@
+.label {
+  font-size: 12px;
+}
+
+.bookingButton {
+  background-color: rgb(255,90,95);
+  border: transparent;
+  border-radius: 4px;
+  text-align: center;
+  color: white;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 22px;
+  padding: 12px;
+  margin: auto;
+}

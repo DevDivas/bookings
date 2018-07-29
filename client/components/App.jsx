@@ -5,6 +5,7 @@ import Header from './Header';
 import Dates from './Dates';
 import Pricing from './Pricing';
 import Guests from './Guests';
+import '../styles/App.css';
 
 const axios = require('axios');
 const moment = require('moment');
@@ -82,6 +83,7 @@ class App extends React.Component {
       this.setState({
         checkin: newDate,
         checkinSelected: true,
+        datesSelected: false,
       });
     }
   }
@@ -165,11 +167,13 @@ class App extends React.Component {
       blackoutMonth,
       updated,
     } = this.state;
-    console.log(updated);
     return (
       <div>
         <Header roomDetails={roomDetails} />
         <hr />
+        <div className="label">
+          Dates
+        </div>
         <Dates
           roomid={roomid}
           selectDate={this.selectDate}
@@ -184,6 +188,9 @@ class App extends React.Component {
           setBlackoutMonth={this.setBlackoutMonth}
           updated={updated}
         />
+        <div className="label">
+          Guests
+        </div>
         <Guests
           numGuests={numGuests}
           toggleGuests={toggleGuests}
@@ -199,10 +206,10 @@ class App extends React.Component {
             />
           )
         }
-        <button type="button" onClick={this.handleBookClick}>
+        <button type="button" className="bookingButton" onClick={this.handleBookClick}>
           Request to Book
         </button>
-        <div>
+        <div className="label">
           You won’t be charged yet
         </div>
       </div>

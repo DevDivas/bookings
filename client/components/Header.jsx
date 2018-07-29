@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Stars from './Stars';
+import '../styles/Header.css';
 
 const Headers = ({ roomDetails }) => (
   <div>
     <div>
-      <span>
-        {roomDetails.roomRateBase}
+      <span className="roomPrice">
+        {`$${roomDetails.roomRateBase} `}
       </span>
-      <span>
+      <span className="label">
         per Night
       </span>
     </div>

@@ -114,9 +114,9 @@ class Dates extends React.Component {
     return (
       <div>
         <div className="datesHeader">
-          <input type="text" value={checkin} id="checkin" onClick={openCalendar} />
+          <input type="text" value={checkin} className="dateInput" id="checkin" onClick={openCalendar} />
           <img alt="" id="middleArrow" src="https://s3-us-west-1.amazonaws.com/fecimages/radatesdgray.png" />
-          <input type="text" value={checkout} id="checkout" onClick={openCalendar} />
+          <input type="text" value={checkout} className={`dateInput${checkinSelected ? ' selectCheckout' : ''}`} id="checkout" onClick={openCalendar} />
         </div>
         <Calendar
           calendarOpen={calendarOpen}

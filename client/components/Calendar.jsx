@@ -52,15 +52,11 @@ const Calendar = (props) => {
     || moment(curMonth, 'MM').isAfter(moment(bMonth, 'MM'))));
 
   // create jsx for each date, styling depends on whether the date is available for booking or not
-  // TODO: CLEAN THIS UP
   const datesArr = dates.map((date) => {
     // if the day is not available for booking
     if (datesAreInSameMonth(checkinSelected, month, checkinMonth, date, stopBookingsFromHere, checkinDay)
-      // blackout all days before checkin (prev months)
       || shouldBlackoutPrevMonths(checkinSelected, month, checkinMonth)
-      // we have found first booking following checkin date (if there are none in the same month)
       || shouldBlackoutNextMonths(checkinSelected, blackoutMonth, month, date, stopBookingsFromHere)
-      // this date is booked already (regardless of whether checkin day was selected)
       || bookingsMap[date]) {
       return (
         <li className="booked">

@@ -73,16 +73,16 @@ describe('Test the room path', () => {
       done();
     });
   });
-  // test('It should send back the right data', (done) => {
-  //   db.getRoomInfo(['25'], (err, roomInfo) => {
-  //     if (err) {
-  //       console.log('testing api error: ' + err);
-  //     } else {
-  //       request(app).get('/rooms/25/room').then((response) => {
-  //         expect(response.body).toEqual(roomInfo);
-  //         done();
-  //       });
-  //     }
-  //   });
-  // });
+  test('It should send back the right data', (done) => {
+    db.getRoomInfo(['25'], (err, roomInfo) => {
+      if (err) {
+        console.log('testing api error: ' + err);
+      } else {
+        request(app).get('/rooms/25/room').then((response) => {
+          expect(response.body).toEqual(roomInfo);
+          done();
+        });
+      }
+    });
+  });
 });

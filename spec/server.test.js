@@ -25,7 +25,7 @@ describe('Test the bookings path', () => {
     });
   });
   test('It should send back the right data', (done) => {
-    db.getAllBookings(25, (err, bookings) => {
+    db.getAllBookings(['25'], (err, bookings) => {
       if (err) {
         console.log('testing api error: ' + err);
       } else {

@@ -47,21 +47,22 @@ class Dates extends React.Component {
     }
   }
 
-  getCurrentMonthBookings(currentMonth, allBookings, numDaysInMonth) {
+  getCurrentMonthBookings(currentMonth, allBookings, numDaysInMonth, currentYear) {
     const monthBookings = allBookings.reduce((bookingsPerMonth, booking) => {
-      const bookingStartArr = booking.start_date.split('-');
-      const bookingEndArr = booking.end_date.split('-');
-      const bookingStartMonth = bookingStartArr[1];
-      const bookingEndMonth = bookingEndArr[1];
-      const bookingStartDay = bookingStartArr[2].split('T')[0];
-      const bookingEndDay = bookingEndArr[2].split('T')[0];
-      if (bookingStartMonth === currentMonth) {
+      const bookingStartMonth = moment(booking.start_date).format('MM');
+      const bookingEndMonth = moment(booking.end_date).format('MM');
+      const bookingStartDay = moment(booking.start_date).format('DD');
+      const bookingEndDay = moment(booking.end_date).format('DD');
+      const bookingStartYear = moment(booking.start_date).format('YYYY');
+      const bookingEndYear = moment(booking.end_date).format('YYYY');
+
+      if (bookingStartMonth === currentMonth && bookingStartYear === currentYear) {
         if (bookingEndMonth === currentMonth) {
           bookingsPerMonth.push([bookingStartDay, bookingEndDay]);
         } else {
           bookingsPerMonth.push([bookingStartDay, numDaysInMonth]);
         }
-      } else if (bookingEndMonth === currentMonth) {
+      } else if (bookingEndMonth === currentMonth && bookingEndYear === currentYear) {
         bookingsPerMonth.push([1, bookingEndDay]);
       }
       return bookingsPerMonth;
@@ -73,9 +74,9 @@ class Dates extends React.Component {
     const { id } = this.state;
     axios.get(`/rooms/${id}/bookings`)
       .then((response) => {
-        const { currentMonth, numDaysInMonth } = this.state;
+        const { currentMonth, numDaysInMonth, currentYear } = this.state;
         const roomBookings = response.data;
-        const monthBookings = this.getCurrentMonthBookings(currentMonth, roomBookings, numDaysInMonth);
+        const monthBookings = this.getCurrentMonthBookings(currentMonth, roomBookings, numDaysInMonth, currentYear);
         this.setState({
           bookings: roomBookings,
           monthlyBookings: monthBookings,
@@ -117,7 +118,7 @@ class Dates extends React.Component {
       }
     }
     const newNumDays = moment(`${currentYear}-${newMonth}`, 'YYYY-MM').daysInMonth();
-    const newBookings = this.getCurrentMonthBookings(newMonth, bookings, newNumDays);
+    const newBookings = this.getCurrentMonthBookings(newMonth, bookings, newNumDays, newYear);
     this.setState({
       currentMonth: newMonth,
       numDaysInMonth: newNumDays,

@@ -18,10 +18,12 @@ class Dates extends React.Component {
       bookings: [],
       id: roomid,
       blackoutAfter: '',
+      highlightedDates: [],
     };
     this.changeMonth = this.changeMonth.bind(this);
     this.fetch = this.fetch.bind(this);
     this.findBlackoutDate = this.findBlackoutDate.bind(this);
+    this.addHighlightDays = this.addHighlightDays.bind(this);
   }
 
   componentDidMount() {
@@ -29,7 +31,7 @@ class Dates extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { datesRerender, resetDatesRender, checkinSelected, checkin } = this.props;
+    const { datesRerender, resetDatesRender, checkinSelected, checkin, checkout, datesSelected } = this.props;
     const { bookings } = this.state;
     if (datesRerender !== prevProps.datesRerender) {
       if (datesRerender === true) {
@@ -39,6 +41,9 @@ class Dates extends React.Component {
     }
     if (checkinSelected !== prevProps.checkinSelected) {
       this.findBlackoutDate(checkin, bookings);
+    }
+    if (datesSelected !== prevProps.datesSelected) {
+      this.addHighlightDays(checkin, checkout);
     }
   }
 
@@ -126,9 +131,21 @@ class Dates extends React.Component {
     });
   }
 
+  addHighlightDays(start, end) {
+    let currentDay = moment(start).add(1, 'days').format('YYYY-MM-DD');
+    const highlightedDayArr = [];
+    while (moment(currentDay).isBefore(end)) {
+      highlightedDayArr.push(currentDay);
+      currentDay = moment(currentDay).add(1, 'days').format('YYYY-MM-DD');
+    }
+    this.setState({
+      highlightedDates: highlightedDayArr,
+    });
+  }
+
   render() {
     const {
-      monthlyBookings, currentMonth, currentYear, blackoutAfter,
+      monthlyBookings, currentMonth, currentYear, blackoutAfter, highlightedDates,
     } = this.state;
     const {
       selectDate, checkin, checkout, checkinSelected,
@@ -167,6 +184,7 @@ class Dates extends React.Component {
           checkinSelected={checkinSelected}
           updated={updated}
           blackoutAfter={blackoutAfter}
+          highlightedDates={highlightedDates}
         />
       </div>
     );
@@ -184,6 +202,7 @@ Dates.propTypes = {
   datesRerender: PropTypes.bool,
   resetDatesRender: PropTypes.func,
   updated: PropTypes.string,
+  datesSelected: PropTypes.bool,
 };
 
 Dates.defaultProps = {
@@ -197,6 +216,7 @@ Dates.defaultProps = {
   datesRerender: false,
   resetDatesRender: () => {},
   updated: moment().format('YYYY-MM-DD'),
+  datesSelected: false,
 };
 
 export default Dates;

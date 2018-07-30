@@ -13,12 +13,13 @@ class Dates extends React.Component {
     this.state = {
       currentMonth: moment().format('MM'),
       currentYear: moment().format('YYYY'),
-      numDaysInMonth: moment(`${moment().format('YYYY')}-${moment().format('MM')}`, 'YYYY-MM').daysInMonth(),
+      numDaysInMonth: moment(moment().format('YYYY-MM')).daysInMonth(),
       monthlyBookings: [],
       bookings: [],
       id: roomid,
       blackoutAfter: '',
       highlightedDates: [],
+      // mouseEnterDate: '',
     };
     this.changeMonth = this.changeMonth.bind(this);
     this.fetch = this.fetch.bind(this);
@@ -31,7 +32,9 @@ class Dates extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { datesRerender, resetDatesRender, checkinSelected, checkin, checkout, datesSelected } = this.props;
+    const {
+      datesRerender, resetDatesRender, checkinSelected, checkin, checkout, datesSelected,
+    } = this.props;
     const { bookings } = this.state;
     if (datesRerender !== prevProps.datesRerender) {
       if (datesRerender === true) {
@@ -46,6 +49,13 @@ class Dates extends React.Component {
       this.addHighlightDays(checkin, checkout);
     }
   }
+
+  // onMouseEnter(checkinDay, currentDate) {
+  //   if (moment(currentDate).isAfter(checkinDay)) {
+  //     this.addHighlightDays(checkinDay, moment(currentDate).add(1, 'day').format('YYYY-MM-DD'));
+  //   }
+  // }
+
 
   getCurrentMonthBookings(currentMonth, allBookings, numDaysInMonth, currentYear) {
     const monthBookings = allBookings.reduce((bookingsPerMonth, booking) => {

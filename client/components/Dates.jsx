@@ -100,10 +100,21 @@ class Dates extends React.Component {
   changeMonth(direction) {
     const { currentMonth, bookings, currentYear } = this.state;
     let newMonth = '';
+    let newYear = '';
     if (direction === 'prev') {
       newMonth = moment(currentMonth, 'MM').subtract(1, 'month').format('MM');
+      if (currentMonth === '01') {
+        newYear = moment(currentYear, 'YYYY').subtract(1, 'year').format('YYYY');
+      } else {
+        newYear = currentYear;
+      }
     } else if (direction === 'next') {
       newMonth = moment(currentMonth, 'MM').add(1, 'month').format('MM');
+      if (currentMonth === '12') {
+        newYear = moment(currentYear, 'YYYY').add(1, 'year').format('YYYY');
+      } else {
+        newYear = currentYear;
+      }
     }
     const newNumDays = moment(`${currentYear}-${newMonth}`, 'YYYY-MM').daysInMonth();
     const newBookings = this.getCurrentMonthBookings(newMonth, bookings, newNumDays);
@@ -111,6 +122,7 @@ class Dates extends React.Component {
       currentMonth: newMonth,
       numDaysInMonth: newNumDays,
       monthlyBookings: newBookings,
+      currentYear: newYear,
     });
   }
 

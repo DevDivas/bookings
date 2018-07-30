@@ -119,6 +119,7 @@ Calendar.propTypes = {
   checkinSelected: PropTypes.bool,
   updated: PropTypes.string.isRequired,
   blackoutAfter: PropTypes.string,
+  highlightedDates: PropTypes.arrayOf(PropTypes.string),
 };
 
 Calendar.defaultProps = {
@@ -133,7 +134,8 @@ Calendar.defaultProps = {
   checkout: '2018-01-01',
   checkinSelected: false,
   //updated: '2018-07-23',
-  blackoutAfter: '2018-01-01'
+  blackoutAfter: '2018-01-01',
+  highlightedDates: [],
 };
 
 export default Calendar;

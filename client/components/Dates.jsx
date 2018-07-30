@@ -17,9 +17,11 @@ class Dates extends React.Component {
       monthlyBookings: [],
       bookings: [],
       id: roomid,
+      blackoutAfter: '',
     };
     this.changeMonth = this.changeMonth.bind(this);
     this.fetch = this.fetch.bind(this);
+    this.findBlackoutDate = this.findBlackoutDate.bind(this);
   }
 
   componentDidMount() {
@@ -27,12 +29,16 @@ class Dates extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { datesRerender, resetDatesRender } = this.props;
+    const { datesRerender, resetDatesRender, checkinSelected, checkin } = this.props;
+    const { bookings } = this.state;
     if (datesRerender !== prevProps.datesRerender) {
       if (datesRerender === true) {
         this.fetch();
         resetDatesRender();
       }
+    }
+    if (checkinSelected !== prevProps.checkinSelected) {
+      this.findBlackoutDate(checkin, bookings);
     }
   }
 
@@ -103,13 +109,30 @@ class Dates extends React.Component {
     });
   }
 
+  findBlackoutDate(checkinDate, allBookings) {
+    let dateDiff = 365;
+    let closestDate = '';
+    allBookings.forEach((booking) => {
+      if (moment(booking.start_date).isAfter(checkinDate)) {
+        const currentDiff = moment(booking.start_date).diff(checkinDate, 'days');
+        if (currentDiff < dateDiff) {
+          dateDiff = currentDiff;
+          closestDate = booking.start_date;
+        }
+      }
+    });
+    this.setState({
+      blackoutAfter: closestDate,
+    });
+  }
+
   render() {
     const {
-      monthlyBookings, currentMonth, currentYear,
+      monthlyBookings, currentMonth, currentYear, blackoutAfter,
     } = this.state;
     const {
       selectDate, checkin, checkout, checkinSelected,
-      calendarOpen, openCalendar, updated, blackoutMonth, setBlackoutMonth,
+      calendarOpen, openCalendar, updated,
     } = this.props;
 
     return (
@@ -142,9 +165,8 @@ class Dates extends React.Component {
           checkin={checkin}
           checkout={checkout}
           checkinSelected={checkinSelected}
-          blackoutMonth={blackoutMonth}
-          setBlackoutMonth={setBlackoutMonth}
           updated={updated}
+          blackoutAfter={blackoutAfter}
         />
       </div>
     );
@@ -161,8 +183,6 @@ Dates.propTypes = {
   openCalendar: PropTypes.func,
   datesRerender: PropTypes.bool,
   resetDatesRender: PropTypes.func,
-  blackoutMonth: PropTypes.string,
-  setBlackoutMonth: PropTypes.func.isRequired,
   updated: PropTypes.string,
 };
 
@@ -176,7 +196,6 @@ Dates.defaultProps = {
   openCalendar: () => {},
   datesRerender: false,
   resetDatesRender: () => {},
-  blackoutMonth: '',
   updated: moment().format('YYYY-MM-DD'),
 };
 

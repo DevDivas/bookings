@@ -7,7 +7,7 @@ const moment = require('moment');
 const Calendar = (props) => {
   const {
     calendarOpen, month, year, bookings, dates, selectDate,
-    changeMonth, checkin, checkinSelected, checkout, updated, blackoutMonth, setBlackoutMonth,
+    changeMonth, checkin, checkinSelected, checkout, updated, blackoutAfter,
   } = props;
   const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   const bookingsMap = {};
@@ -17,48 +17,14 @@ const Calendar = (props) => {
     }
   });
 
-
-  // figure out what date to start blocking off in same month once a checkin day is selected
-  const checkinDate = checkin.split('-');
-  const checkinDay = checkinDate[2];
-  const checkinMonth = checkinDate[1];
-  let stopBookingsFromHere = '';
-  if (checkinSelected && checkinMonth === month && blackoutMonth === '') {
-    bookingsMap[checkinDay] = true;
-    const bookedDates = Object.keys(bookingsMap).sort((a, b) => a - b);
-    stopBookingsFromHere = bookedDates[bookedDates.indexOf(checkinDay) + 1];
-    delete bookingsMap[checkinDay];
-  } else if (checkinSelected
-    // figure out what the next booking is if no dates are blocked off for the same checkin month
-    && Object.keys(bookingsMap).length > 0
-    && blackoutMonth === ''
-    && moment(month, 'MM').isAfter(moment(checkinMonth, 'MM'))) {
-    setBlackoutMonth(month);
-  }
-  if (month === blackoutMonth) {
-    const bookedDates = Object.keys(bookingsMap).sort((a, b) => a - b);
-    stopBookingsFromHere = bookedDates[0];
-  }
-
-  const datesAreInSameMonth = (isCheckinSelected, curMonth, cIMonth, curDate, sBFH, cIDay) => (isCheckinSelected
-    && curMonth === cIMonth && (curDate >= Number(sBFH) || curDate < Number(cIDay)));
-
-  const shouldBlackoutPrevMonths = (isCheckinSelected, curMonth, cIMonth) => (isCheckinSelected
-    && moment(curMonth, 'MM').isBefore(moment(cIMonth, 'MM')));
-
-  const shouldBlackoutNextMonths = (isCheckinSelected, bMonth, curMonth, curDate, sBFH) => (isCheckinSelected
-    && bMonth !== ''
-    // blackout everything after this date if you are in the same month
-    && ((curMonth === bMonth && curDate >= Number(sBFH))
-    // black out everything after that
-    || moment(curMonth, 'MM').isAfter(moment(bMonth, 'MM'))));
+  const checkinDay = moment(checkin).format('DD');
+  const checkinMonth = moment(checkin).format('MM');
 
   // create jsx for each date, styling depends on whether the date is available for booking or not
   const datesArr = dates.map((date) => {
     // if the day is not available for booking
-    if (datesAreInSameMonth(checkinSelected, month, checkinMonth, date, stopBookingsFromHere, checkinDay)
-      || shouldBlackoutPrevMonths(checkinSelected, month, checkinMonth)
-      || shouldBlackoutNextMonths(checkinSelected, blackoutMonth, month, date, stopBookingsFromHere)
+    if ((checkinSelected && moment(blackoutAfter).isBefore(`${year}-${month}-${date < 10 ? `0${date}` : date}`))
+      || (checkinSelected && moment(checkin).isAfter(`${year}-${month}-${date < 10 ? `0${date}` : date}`))
       || bookingsMap[date]) {
       // console.log(Object.keys(bookingsMap));
       return (
@@ -76,7 +42,8 @@ const Calendar = (props) => {
     // if the day is available
     const selectedDate = (month === checkinMonth && Number(checkinDay) === date)
       || (month === moment(checkout).format('MM') && date === Number(moment(checkout).format('DD')));
-    const betweenDates = (date > Number(checkinDay) && date < Number(moment(checkout).format('DD')));
+    const betweenDates = (checkinMonth === month || moment(checkout).format('MM') === month)
+      && date > Number(checkinDay) && date < Number(moment(checkout).format('DD'));
     return (
       <li
         className={`available dates${selectedDate ? ' selectedDate' : ''}${betweenDates ? ' betweenDates' : ''}`}
@@ -150,9 +117,8 @@ Calendar.propTypes = {
   checkin: PropTypes.string,
   checkout: PropTypes.string,
   checkinSelected: PropTypes.bool,
-  blackoutMonth: PropTypes.string,
-  setBlackoutMonth: PropTypes.func.isRequired,
   updated: PropTypes.string.isRequired,
+  blackoutAfter: PropTypes.string,
 };
 
 Calendar.defaultProps = {
@@ -166,8 +132,8 @@ Calendar.defaultProps = {
   checkin: '2018-01-01',
   checkout: '2018-01-01',
   checkinSelected: false,
-  blackoutMonth: '',
   //updated: '2018-07-23',
+  blackoutAfter: '2018-01-01'
 };
 
 export default Calendar;

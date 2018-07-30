@@ -1,0 +1,131 @@
+.guestsDisplay {
+  border: 1px solid rgb(219,219,219);
+  border-radius: 3px;
+  width: 100%;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.guestsDisplayInner {
+  display: inline-block;
+  /*margin: 8px;*/
+  font-size: 17px;
+  padding: 0px 6px;
+  float: left;
+  color: rgb(72,72,72);
+}
+
+.guestsContainer {
+  position: fixed;
+  z-index: 1;
+  width: 97%;
+  top: 295px;
+  background-color: white;
+  border: 1px solid rgb(219,219,219);
+  border-radius: 3px;
+  left: 50%;
+  float: left;
+  transform: translate(-50%);
+  color: rgb(72,72,72);
+
+}
+
+.highlight {
+  background-color: rgb(153,237,230);
+  color: #007a87;
+  border-radius: 3px;
+}
+
+.dt {
+  display: table;
+  width: 100%;
+}
+
+.dtc {
+  display: table-cell;
+  vertical-align: middle;
+  margin: 16px 0px;
+
+}
+
+.addButton {
+  background-image: url('https://s3-us-west-1.amazonaws.com/fecimages/plus.png');
+}
+
+.minusButton {
+  background-image: url('https://s3-us-west-1.amazonaws.com/fecimages/minus.png');
+}
+
+.guestsButtons {
+  border: none;
+  height: 25px;
+  width: 25px;
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+}
+
+.toggleContainer {
+  width: 20%;
+  text-align: right;
+  vertical-align: middle !important;
+  padding: 0px !important;
+}
+
+.innerToggleContainer {
+  text-align: right;
+  display: flex;
+  justify-content: space-between;
+}
+
+.guestTypeLabel {
+  width: 80%;
+  color: #484848;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.guestsModal {
+  width: 96.5%;
+  margin: auto;
+}
+
+.guestsModalFooter {
+  width: 96.5%;
+  margin: auto;
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.labelSubtitle {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.guestsCloseButton {
+  border: none;
+  color: #008489;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  float: right;
+  text-align: right;
+  margin: 0px 0px 8px 8px;
+}
+
+.maxGuestsText {
+  margin: 8px 0px;
+}
+
+.inactive {
+  opacity: .5;
+}
+
+.arrowImg {
+  height: 20px;
+  width: auto;
+  vertical-align: middle;
+  text-align: right;
+  margin-right: 5px;
+  margin-top: 1px;
+  float: right;
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Calendar from './Calendar';
+import '../styles/Dates.css';
 
 const axios = require('axios');
 const moment = require('moment');
@@ -108,14 +109,27 @@ class Dates extends React.Component {
     } = this.state;
     const {
       selectDate, checkin, checkout, checkinSelected,
-      calendarOpen, openCalendar, blackoutMonth, setBlackoutMonth,
+      calendarOpen, openCalendar, updated, blackoutMonth, setBlackoutMonth,
     } = this.props;
+
     return (
       <div>
-        <div>
-          <input type="text" value={checkin} onClick={openCalendar} />
-          <img alt="" />
-          <input type="text" value={checkout} onClick={openCalendar} />
+        <div className="datesHeader">
+          <input
+            type="text"
+            value={checkin === 'Check In' ? 'Check In' : moment(checkin, 'YYYY-MM-DD').format('MM/DD/YYYY')}
+            className="dateInput"
+            id="checkin"
+            onClick={openCalendar}
+          />
+          <img alt="" id="middleArrow" src="https://s3-us-west-1.amazonaws.com/fecimages/radatesdgray.png" />
+          <input
+            type="text"
+            value={checkout === 'Check Out' ? 'Check Out' : moment(checkout, 'YYYY-MM-DD').format('MM/DD/YYYY')}
+            className={`dateInput${checkinSelected ? ' selectCheckout' : ''}`}
+            id="checkout"
+            onClick={openCalendar}
+          />
         </div>
         <Calendar
           calendarOpen={calendarOpen}
@@ -126,9 +140,11 @@ class Dates extends React.Component {
           selectDate={selectDate}
           changeMonth={this.changeMonth}
           checkin={checkin}
+          checkout={checkout}
           checkinSelected={checkinSelected}
           blackoutMonth={blackoutMonth}
           setBlackoutMonth={setBlackoutMonth}
+          updated={updated}
         />
       </div>
     );
@@ -147,6 +163,7 @@ Dates.propTypes = {
   resetDatesRender: PropTypes.func,
   blackoutMonth: PropTypes.string,
   setBlackoutMonth: PropTypes.func.isRequired,
+  updated: PropTypes.string,
 };
 
 Dates.defaultProps = {
@@ -160,6 +177,7 @@ Dates.defaultProps = {
   datesRerender: false,
   resetDatesRender: () => {},
   blackoutMonth: '',
+  updated: moment().format('YYYY-MM-DD'),
 };
 
 export default Dates;

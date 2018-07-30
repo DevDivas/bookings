@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../styles/Calendar.css';
 
 const moment = require('moment');
 
 const Calendar = (props) => {
   const {
-    calendarOpen, month, year, bookings,
-    dates, selectDate, changeMonth, checkin, checkinSelected, blackoutMonth, setBlackoutMonth,
+    calendarOpen, month, year, bookings, dates, selectDate,
+    changeMonth, checkin, checkinSelected, checkout, updated, blackoutMonth, setBlackoutMonth,
   } = props;
   const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   const bookingsMap = {};
@@ -26,6 +27,7 @@ const Calendar = (props) => {
     bookingsMap[checkinDay] = true;
     const bookedDates = Object.keys(bookingsMap).sort((a, b) => a - b);
     stopBookingsFromHere = bookedDates[bookedDates.indexOf(checkinDay) + 1];
+    delete bookingsMap[checkinDay];
   } else if (checkinSelected
     // figure out what the next booking is if no dates are blocked off for the same checkin month
     && Object.keys(bookingsMap).length > 0
@@ -58,51 +60,78 @@ const Calendar = (props) => {
       || shouldBlackoutPrevMonths(checkinSelected, month, checkinMonth)
       || shouldBlackoutNextMonths(checkinSelected, blackoutMonth, month, date, stopBookingsFromHere)
       || bookingsMap[date]) {
+      // console.log(Object.keys(bookingsMap));
       return (
-        <li className="booked">
+        <li className={`booked dates${!date ? ' blank' : ''}`}>
+          {date}
+        </li>
+      );
+    } if (!date) {
+      return (
+        <li className="blank dates">
           {date}
         </li>
       );
     }
     // if the day is available
+    const selectedDate = (month === checkinMonth && Number(checkinDay) === date)
+      || (month === moment(checkout).format('MM') && date === Number(moment(checkout).format('DD')));
+    const betweenDates = (date > Number(checkinDay) && date < Number(moment(checkout).format('DD')));
     return (
-      <li className="available">
-        <button type="button" onClick={() => { selectDate(`${year}-${month}-${date}`); }}>
-          {date}
-        </button>
+      <li
+        className={`available dates${selectedDate ? ' selectedDate' : ''}${betweenDates ? ' betweenDates' : ''}`}
+        onClick={() => { selectDate(`${year}-${month}-${date}`); }}
+      >
+        {date}
       </li>
     );
   });
+
+  const daysAgo = (lastUpdate) => {
+    const diff = moment().diff(moment(lastUpdate, 'YYYY-MM-DD'), 'days');
+    return diff ? ` ${diff} days ago` : ' today';
+  };
+
   if (calendarOpen) {
     return (
-      <div>
-        <div>
-          <span>
-            <img alt="" />
-            <button type="button" onClick={() => { changeMonth('prev'); }}>
-              Left
-            </button>
-          </span>
-          <span>
-            {`${moment(month).format('MMMM')} ${year}`}
-          </span>
-          <span>
-            <img alt="" />
-            <button type="button" onClick={() => { changeMonth('next'); }}>
-              Right
-            </button>
-          </span>
-        </div>
-        <div>
-          <ul>
-            {daysOfWeek.map(day => (
-              <li key={day}>
-                {day}
-              </li>))}
-          </ul>
-          <ul>
-            {datesArr}
-          </ul>
+      <div className="calendarContainer">
+        <div className="innerCalContainer">
+          <div className="header">
+            <span>
+              <img alt="" />
+              <button type="button" id="calendarLeftArr" onClick={() => { changeMonth('prev'); }} />
+            </span>
+            <span className="monthLabel">
+              {`${moment(month).format('MMMM')} ${year}`}
+            </span>
+            <span>
+              <img alt="" />
+              <button type="button" id="calendarRightArr" onClick={() => { changeMonth('next'); }} />
+            </span>
+          </div>
+          <div className="calendar">
+            <ul>
+              {daysOfWeek.map(day => (
+                <li key={day} className="weekdays">
+                  {day}
+                </li>))}
+            </ul>
+            <ul>
+              {datesArr}
+            </ul>
+          </div>
+          <div className="calendarFooter">
+            <p>
+              <b>
+                {'1 night '}
+              </b>
+              minimum stay
+            </p>
+            <p>
+              Updated
+              {daysAgo(updated)}
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -119,9 +148,11 @@ Calendar.propTypes = {
   selectDate: PropTypes.func,
   changeMonth: PropTypes.func,
   checkin: PropTypes.string,
+  checkout: PropTypes.string,
   checkinSelected: PropTypes.bool,
   blackoutMonth: PropTypes.string,
   setBlackoutMonth: PropTypes.func.isRequired,
+  updated: PropTypes.string.isRequired,
 };
 
 Calendar.defaultProps = {
@@ -133,8 +164,10 @@ Calendar.defaultProps = {
   selectDate: () => {},
   changeMonth: () => {},
   checkin: '2018-01-01',
+  checkout: '2018-01-01',
   checkinSelected: false,
   blackoutMonth: '',
+  //updated: '2018-07-23',
 };
 
 export default Calendar;

@@ -1,0 +1,50 @@
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.bookingButton {
+  background-color: rgb(255,90,95);
+  border: transparent;
+  border-radius: 4px;
+  text-align: center;
+  color: white;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 22px;
+  padding: 12px;
+  margin: auto;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.buttonHolder {
+  margin-top: 16px;
+}
+.headerContainer {
+  margin-top: 60px;
+  width: 100%;
+}
+
+.noCharge {
+  text-align: center;
+}
+#root {
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+button {
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+input {
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+hr {
+  border: solid .5px rgb(219,219,219);
+}

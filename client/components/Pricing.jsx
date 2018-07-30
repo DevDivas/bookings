@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../styles/Pricing.css';
 
 const Pricing = (props) => {
   const { roomDetails, stayLength } = props;
@@ -9,38 +10,38 @@ const Pricing = (props) => {
     <div>
       <table>
         <tbody>
-          <tr>
-            <td>
+          <tr className="row">
+            <td className="cell chargeType">
               {`$${roomDetails.roomRateBase} x ${stayLength} nights`}
             </td>
-            <td>
+            <td className="cell price">
               $
               {basePrice}
             </td>
           </tr>
-          <tr>
-            <td>
+          <tr className="row">
+            <td className="cell chargeType">
               Service Fee
             </td>
-            <td>
+            <td className="cell price">
               {`$${roomDetails.serviceFee}`}
             </td>
           </tr>
-          <tr>
-            <td>
+          <tr className="row">
+            <td className="cell chargeType">
               Cleaning Fee
             </td>
-            <td>
+            <td className="cell price">
               {`$${roomDetails.cleaningFee}`}
             </td>
           </tr>
-          <tr>
-            <td>
+          <tr className="row">
+            <td className="cell chargeType bottomRow">
               <b>
                 Total
               </b>
             </td>
-            <td>
+            <td className="cell price bottomRow">
               <b>
                 {`$${basePrice + roomDetails.serviceFee + roomDetails.cleaningFee}`}
               </b>

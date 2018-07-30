@@ -5,6 +5,7 @@ import Header from './Header';
 import Dates from './Dates';
 import Pricing from './Pricing';
 import Guests from './Guests';
+import '../styles/App.css';
 
 const axios = require('axios');
 const moment = require('moment');
@@ -28,6 +29,7 @@ class App extends React.Component {
       toggleGuests: false,
       datesRerender: false,
       blackoutMonth: '',
+      updated: '2018-07-25',
     };
     this.selectDate = this.selectDate.bind(this);
     this.openCalendar = this.openCalendar.bind(this);
@@ -81,6 +83,7 @@ class App extends React.Component {
       this.setState({
         checkin: newDate,
         checkinSelected: true,
+        datesSelected: false,
       });
     }
   }
@@ -139,6 +142,7 @@ class App extends React.Component {
           checkout: 'Check Out',
           checkinSelected: false,
           datesSelected: false,
+          updated: moment().format('YYYY-MM-DD'),
         });
       }).catch((error) => {
         console.log(error);
@@ -161,11 +165,17 @@ class App extends React.Component {
       toggleGuests,
       datesRerender,
       blackoutMonth,
+      updated,
     } = this.state;
     return (
-      <div>
+      <div className="overallContainer">
+        <div className="headerContainer" />
+
         <Header roomDetails={roomDetails} />
         <hr />
+        <div className="label">
+          Dates
+        </div>
         <Dates
           roomid={roomid}
           selectDate={this.selectDate}
@@ -178,7 +188,11 @@ class App extends React.Component {
           resetDatesRender={this.resetDatesRender}
           blackoutMonth={blackoutMonth}
           setBlackoutMonth={this.setBlackoutMonth}
+          updated={updated}
         />
+        <div className="label">
+          Guests
+        </div>
         <Guests
           numGuests={numGuests}
           toggleGuests={toggleGuests}
@@ -194,10 +208,12 @@ class App extends React.Component {
             />
           )
         }
-        <button type="button" onClick={this.handleBookClick}>
-          Request to Book
-        </button>
-        <div>
+        <div className="buttonHolder">
+          <button type="button" className="bookingButton" onClick={this.handleBookClick}>
+            Request to Book
+          </button>
+        </div>
+        <div className="label noCharge">
           You won’t be charged yet
         </div>
       </div>

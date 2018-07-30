@@ -6,8 +6,8 @@ const moment = require('moment');
 
 const Calendar = (props) => {
   const {
-    calendarOpen, month, year, bookings, dates, selectDate,
-    changeMonth, checkin, checkinSelected, checkout, updated, blackoutAfter, highlightedDates,
+    calendarOpen, month, year, bookings, dates, selectDate, changeMonth, 
+    checkin, checkinSelected, checkout, updated, blackoutAfter, highlightedDates, handleMouseEnter,
   } = props;
   const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   const bookingsMap = {};
@@ -44,10 +44,12 @@ const Calendar = (props) => {
     const selectedDate = (month === checkinMonth && Number(checkinDay) === date)
       || (month === moment(checkout).format('MM') && date === Number(moment(checkout).format('DD')));
     const betweenDates = (highlightedDates.indexOf(currentFullDate) > -1);
+    // const hoverHighlight = (betweenDates && )
     return (
       <li
         className={`available dates${selectedDate ? ' selectedDate' : ''}${betweenDates ? ' betweenDates' : ''}`}
         onClick={() => { selectDate(`${year}-${month}-${date}`); }}
+        onMouseEnter={() => { handleMouseEnter(checkin, currentFullDate); }}
       >
         {date}
       </li>
@@ -120,6 +122,7 @@ Calendar.propTypes = {
   updated: PropTypes.string.isRequired,
   blackoutAfter: PropTypes.string,
   highlightedDates: PropTypes.arrayOf(PropTypes.string),
+  handleMouseEnter: PropTypes.func,
 };
 
 Calendar.defaultProps = {
@@ -136,6 +139,7 @@ Calendar.defaultProps = {
   //updated: '2018-07-23',
   blackoutAfter: '2018-01-01',
   highlightedDates: [],
+  handleMouseEnter: () => {},
 };
 
 export default Calendar;

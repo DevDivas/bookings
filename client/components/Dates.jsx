@@ -19,12 +19,12 @@ class Dates extends React.Component {
       id: roomid,
       blackoutAfter: '',
       highlightedDates: [],
-      // mouseEnterDate: '',
     };
     this.changeMonth = this.changeMonth.bind(this);
     this.fetch = this.fetch.bind(this);
     this.findBlackoutDate = this.findBlackoutDate.bind(this);
     this.addHighlightDays = this.addHighlightDays.bind(this);
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
   }
 
   componentDidMount() {
@@ -50,13 +50,6 @@ class Dates extends React.Component {
     }
   }
 
-  // onMouseEnter(checkinDay, currentDate) {
-  //   if (moment(currentDate).isAfter(checkinDay)) {
-  //     this.addHighlightDays(checkinDay, moment(currentDate).add(1, 'day').format('YYYY-MM-DD'));
-  //   }
-  // }
-
-
   getCurrentMonthBookings(currentMonth, allBookings, numDaysInMonth, currentYear) {
     const monthBookings = allBookings.reduce((bookingsPerMonth, booking) => {
       const bookingStartMonth = moment(booking.start_date).format('MM');
@@ -79,7 +72,15 @@ class Dates extends React.Component {
     }, []);
     return monthBookings;
   }
-  
+
+  handleMouseEnter(checkinDay, currentDate) {
+    const { datesSelected } = this.props;
+    console.log(datesSelected);
+    if (!datesSelected) {
+      this.addHighlightDays(checkinDay, moment(currentDate).add(1, 'day').format('YYYY-MM-DD'));
+    }
+  }
+
   fetch() {
     const { id } = this.state;
     axios.get(`/rooms/${id}/bookings`)
@@ -208,6 +209,7 @@ class Dates extends React.Component {
           updated={updated}
           blackoutAfter={blackoutAfter}
           highlightedDates={highlightedDates}
+          handleMouseEnter={this.handleMouseEnter}
         />
       </div>
     );

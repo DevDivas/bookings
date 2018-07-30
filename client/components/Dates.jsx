@@ -13,15 +13,18 @@ class Dates extends React.Component {
     this.state = {
       currentMonth: moment().format('MM'),
       currentYear: moment().format('YYYY'),
-      numDaysInMonth: moment(`${moment().format('YYYY')}-${moment().format('MM')}`, 'YYYY-MM').daysInMonth(),
+      numDaysInMonth: moment(moment().format('YYYY-MM')).daysInMonth(),
       monthlyBookings: [],
       bookings: [],
       id: roomid,
       blackoutAfter: '',
+      highlightedDates: [],
+      // mouseEnterDate: '',
     };
     this.changeMonth = this.changeMonth.bind(this);
     this.fetch = this.fetch.bind(this);
     this.findBlackoutDate = this.findBlackoutDate.bind(this);
+    this.addHighlightDays = this.addHighlightDays.bind(this);
   }
 
   componentDidMount() {
@@ -29,7 +32,9 @@ class Dates extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { datesRerender, resetDatesRender, checkinSelected, checkin } = this.props;
+    const {
+      datesRerender, resetDatesRender, checkinSelected, checkin, checkout, datesSelected,
+    } = this.props;
     const { bookings } = this.state;
     if (datesRerender !== prevProps.datesRerender) {
       if (datesRerender === true) {
@@ -40,23 +45,34 @@ class Dates extends React.Component {
     if (checkinSelected !== prevProps.checkinSelected) {
       this.findBlackoutDate(checkin, bookings);
     }
+    if (datesSelected !== prevProps.datesSelected) {
+      this.addHighlightDays(checkin, checkout);
+    }
   }
 
-  getCurrentMonthBookings(currentMonth, allBookings, numDaysInMonth) {
+  // onMouseEnter(checkinDay, currentDate) {
+  //   if (moment(currentDate).isAfter(checkinDay)) {
+  //     this.addHighlightDays(checkinDay, moment(currentDate).add(1, 'day').format('YYYY-MM-DD'));
+  //   }
+  // }
+
+
+  getCurrentMonthBookings(currentMonth, allBookings, numDaysInMonth, currentYear) {
     const monthBookings = allBookings.reduce((bookingsPerMonth, booking) => {
-      const bookingStartArr = booking.start_date.split('-');
-      const bookingEndArr = booking.end_date.split('-');
-      const bookingStartMonth = bookingStartArr[1];
-      const bookingEndMonth = bookingEndArr[1];
-      const bookingStartDay = bookingStartArr[2].split('T')[0];
-      const bookingEndDay = bookingEndArr[2].split('T')[0];
-      if (bookingStartMonth === currentMonth) {
+      const bookingStartMonth = moment(booking.start_date).format('MM');
+      const bookingEndMonth = moment(booking.end_date).format('MM');
+      const bookingStartDay = moment(booking.start_date).format('DD');
+      const bookingEndDay = moment(booking.end_date).format('DD');
+      const bookingStartYear = moment(booking.start_date).format('YYYY');
+      const bookingEndYear = moment(booking.end_date).format('YYYY');
+
+      if (bookingStartMonth === currentMonth && bookingStartYear === currentYear) {
         if (bookingEndMonth === currentMonth) {
           bookingsPerMonth.push([bookingStartDay, bookingEndDay]);
         } else {
           bookingsPerMonth.push([bookingStartDay, numDaysInMonth]);
         }
-      } else if (bookingEndMonth === currentMonth) {
+      } else if (bookingEndMonth === currentMonth && bookingEndYear === currentYear) {
         bookingsPerMonth.push([1, bookingEndDay]);
       }
       return bookingsPerMonth;
@@ -68,9 +84,9 @@ class Dates extends React.Component {
     const { id } = this.state;
     axios.get(`/rooms/${id}/bookings`)
       .then((response) => {
-        const { currentMonth, numDaysInMonth } = this.state;
+        const { currentMonth, numDaysInMonth, currentYear } = this.state;
         const roomBookings = response.data;
-        const monthBookings = this.getCurrentMonthBookings(currentMonth, roomBookings, numDaysInMonth);
+        const monthBookings = this.getCurrentMonthBookings(currentMonth, roomBookings, numDaysInMonth, currentYear);
         this.setState({
           bookings: roomBookings,
           monthlyBookings: monthBookings,
@@ -95,17 +111,29 @@ class Dates extends React.Component {
   changeMonth(direction) {
     const { currentMonth, bookings, currentYear } = this.state;
     let newMonth = '';
+    let newYear = '';
     if (direction === 'prev') {
       newMonth = moment(currentMonth, 'MM').subtract(1, 'month').format('MM');
+      if (currentMonth === '01') {
+        newYear = moment(currentYear, 'YYYY').subtract(1, 'year').format('YYYY');
+      } else {
+        newYear = currentYear;
+      }
     } else if (direction === 'next') {
       newMonth = moment(currentMonth, 'MM').add(1, 'month').format('MM');
+      if (currentMonth === '12') {
+        newYear = moment(currentYear, 'YYYY').add(1, 'year').format('YYYY');
+      } else {
+        newYear = currentYear;
+      }
     }
     const newNumDays = moment(`${currentYear}-${newMonth}`, 'YYYY-MM').daysInMonth();
-    const newBookings = this.getCurrentMonthBookings(newMonth, bookings, newNumDays);
+    const newBookings = this.getCurrentMonthBookings(newMonth, bookings, newNumDays, newYear);
     this.setState({
       currentMonth: newMonth,
       numDaysInMonth: newNumDays,
       monthlyBookings: newBookings,
+      currentYear: newYear,
     });
   }
 
@@ -126,9 +154,21 @@ class Dates extends React.Component {
     });
   }
 
+  addHighlightDays(start, end) {
+    let currentDay = moment(start).add(1, 'days').format('YYYY-MM-DD');
+    const highlightedDayArr = [];
+    while (moment(currentDay).isBefore(end)) {
+      highlightedDayArr.push(currentDay);
+      currentDay = moment(currentDay).add(1, 'days').format('YYYY-MM-DD');
+    }
+    this.setState({
+      highlightedDates: highlightedDayArr,
+    });
+  }
+
   render() {
     const {
-      monthlyBookings, currentMonth, currentYear, blackoutAfter,
+      monthlyBookings, currentMonth, currentYear, blackoutAfter, highlightedDates,
     } = this.state;
     const {
       selectDate, checkin, checkout, checkinSelected,
@@ -167,6 +207,7 @@ class Dates extends React.Component {
           checkinSelected={checkinSelected}
           updated={updated}
           blackoutAfter={blackoutAfter}
+          highlightedDates={highlightedDates}
         />
       </div>
     );
@@ -184,6 +225,7 @@ Dates.propTypes = {
   datesRerender: PropTypes.bool,
   resetDatesRender: PropTypes.func,
   updated: PropTypes.string,
+  datesSelected: PropTypes.bool,
 };
 
 Dates.defaultProps = {
@@ -197,6 +239,7 @@ Dates.defaultProps = {
   datesRerender: false,
   resetDatesRender: () => {},
   updated: moment().format('YYYY-MM-DD'),
+  datesSelected: false,
 };
 
 export default Dates;

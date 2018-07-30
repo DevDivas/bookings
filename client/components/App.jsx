@@ -179,6 +179,7 @@ class App extends React.Component {
           datesRerender={datesRerender}
           resetDatesRender={this.resetDatesRender}
           updated={updated}
+          datesSelected={datesSelected}
         />
         <div className="label">
           Guests

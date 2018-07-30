@@ -7,7 +7,7 @@ const moment = require('moment');
 const Calendar = (props) => {
   const {
     calendarOpen, month, year, bookings, dates, selectDate,
-    changeMonth, checkin, checkinSelected, checkout, updated, blackoutAfter,
+    changeMonth, checkin, checkinSelected, checkout, updated, blackoutAfter, highlightedDates,
   } = props;
   const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   const bookingsMap = {};
@@ -23,8 +23,9 @@ const Calendar = (props) => {
   // create jsx for each date, styling depends on whether the date is available for booking or not
   const datesArr = dates.map((date) => {
     // if the day is not available for booking
-    if ((checkinSelected && moment(blackoutAfter).isBefore(`${year}-${month}-${date < 10 ? `0${date}` : date}`))
-      || (checkinSelected && moment(checkin).isAfter(`${year}-${month}-${date < 10 ? `0${date}` : date}`))
+    const currentFullDate = `${year}-${month}-${date < 10 ? `0${date}` : date}`;
+    if ((checkinSelected && moment(blackoutAfter).isBefore(currentFullDate))
+      || (checkinSelected && moment(checkin).isAfter(currentFullDate))
       || bookingsMap[date]) {
       // console.log(Object.keys(bookingsMap));
       return (
@@ -42,8 +43,7 @@ const Calendar = (props) => {
     // if the day is available
     const selectedDate = (month === checkinMonth && Number(checkinDay) === date)
       || (month === moment(checkout).format('MM') && date === Number(moment(checkout).format('DD')));
-    const betweenDates = (checkinMonth === month || moment(checkout).format('MM') === month)
-      && date > Number(checkinDay) && date < Number(moment(checkout).format('DD'));
+    const betweenDates = (highlightedDates.indexOf(currentFullDate) > -1);
     return (
       <li
         className={`available dates${selectedDate ? ' selectedDate' : ''}${betweenDates ? ' betweenDates' : ''}`}
@@ -119,6 +119,7 @@ Calendar.propTypes = {
   checkinSelected: PropTypes.bool,
   updated: PropTypes.string.isRequired,
   blackoutAfter: PropTypes.string,
+  highlightedDates: PropTypes.arrayOf(PropTypes.string),
 };
 
 Calendar.defaultProps = {
@@ -133,7 +134,8 @@ Calendar.defaultProps = {
   checkout: '2018-01-01',
   checkinSelected: false,
   //updated: '2018-07-23',
-  blackoutAfter: '2018-01-01'
+  blackoutAfter: '2018-01-01',
+  highlightedDates: [],
 };
 
 export default Calendar;

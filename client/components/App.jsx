@@ -37,6 +37,7 @@ class App extends React.Component {
     this.toggleGuestMenu = this.toggleGuestMenu.bind(this);
     this.resetDatesRender = this.resetDatesRender.bind(this);
     this.setBlackoutMonth = this.setBlackoutMonth.bind(this);
+    this.handleBookClick = this.handleBookClick.bind(this);
   }
 
   componentDidMount() {

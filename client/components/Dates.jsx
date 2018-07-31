@@ -75,7 +75,6 @@ class Dates extends React.Component {
 
   handleMouseEnter(checkinDay, currentDate) {
     const { datesSelected } = this.props;
-    console.log(datesSelected);
     if (!datesSelected) {
       this.addHighlightDays(checkinDay, moment(currentDate).add(1, 'day').format('YYYY-MM-DD'));
     }
@@ -87,7 +86,8 @@ class Dates extends React.Component {
       .then((response) => {
         const { currentMonth, numDaysInMonth, currentYear } = this.state;
         const roomBookings = response.data;
-        const monthBookings = this.getCurrentMonthBookings(currentMonth, roomBookings, numDaysInMonth, currentYear);
+        const monthBookings = this.getCurrentMonthBookings(currentMonth, roomBookings,
+          numDaysInMonth, currentYear);
         this.setState({
           bookings: roomBookings,
           monthlyBookings: monthBookings,
@@ -173,7 +173,7 @@ class Dates extends React.Component {
     } = this.state;
     const {
       selectDate, checkin, checkout, checkinSelected,
-      calendarOpen, openCalendar, updated,
+      calendarOpen, openCalendar, updated, clearDates,
     } = this.props;
 
     return (
@@ -210,6 +210,7 @@ class Dates extends React.Component {
           blackoutAfter={blackoutAfter}
           highlightedDates={highlightedDates}
           handleMouseEnter={this.handleMouseEnter}
+          clearDates={clearDates}
         />
       </div>
     );

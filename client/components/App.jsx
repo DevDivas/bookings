@@ -36,6 +36,7 @@ class App extends React.Component {
     this.toggleGuestMenu = this.toggleGuestMenu.bind(this);
     this.resetDatesRender = this.resetDatesRender.bind(this);
     this.handleBookClick = this.handleBookClick.bind(this);
+    this.clearDates = this.clearDates.bind(this);
   }
 
   componentDidMount() {
@@ -61,8 +62,8 @@ class App extends React.Component {
 
   selectDate(date) {
     let newDate = date;
-    if (date.slice(8).length === 1) {
-      newDate = `${date.slice(0, 8)}0${date.slice(8)}`;
+    if (date.length === 9) {
+      newDate = moment(date).format('YYYY-MM-DD');
     }
     const { checkinSelected } = this.state;
     if (checkinSelected) {
@@ -127,7 +128,6 @@ class App extends React.Component {
         startDate: checkin,
         endDate: checkout,
       }).then((response) => {
-        console.log(response);
         alert('Thank you! Your Cloudbnb stay has been booked!');
         this.setState({
           datesRerender: true,
@@ -143,6 +143,16 @@ class App extends React.Component {
     } else {
       alert('Please select dates first!');
     }
+  }
+
+  clearDates() {
+    this.setState({
+      checkin: 'Check In',
+      checkout: 'Check Out',
+      checkinSelected: false,
+      datesSelected: false,
+      calendarOpen: false,
+    });
   }
 
   render() {
@@ -180,6 +190,7 @@ class App extends React.Component {
           resetDatesRender={this.resetDatesRender}
           updated={updated}
           datesSelected={datesSelected}
+          clearDates={this.clearDates}
         />
         <div className="label">
           Guests

@@ -37,7 +37,7 @@ const Guests = (props) => {
           <div className="minus dtc">
             <button
               type="button"
-              className={`minusButton guestsButtons${canDecrease ? '' : ' inactive'}`}
+              className={`minusButton guestsButtons${canDecrease ? null : ' inactive'}`}
               onClick={() => {
                 if (canDecrease) {
                   changeGuestNum(guestType, '-');

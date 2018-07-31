@@ -85,10 +85,10 @@ const generateRoomData = () => {
 
 const generateRoomDataCSV = roomDetailArray => roomDetailArray.map(room => room.join(', ')).join('\r\n');
 
-fs.writeFile('fakeBookings.csv', generateBookedDatesCSV(generateBookingDates()), (err) => {
+fs.writeFile('database/fakeBookings.csv', generateBookedDatesCSV(generateBookingDates()), (err) => {
   if (err) throw err;
 });
 
-fs.writeFile('fakeRoomDetails.csv', generateRoomDataCSV(generateRoomData()), (err) => {
+fs.writeFile('database/fakeRoomDetails.csv', generateRoomDataCSV(generateRoomData()), (err) => {
   if (err) throw err;
 });

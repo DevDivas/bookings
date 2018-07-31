@@ -19,6 +19,7 @@ jobs:
 
     steps:
       - checkout
+      - run: sudo apt install mysql-client
       - run:
           name: update-npm
           command: 'sudo npm install -g npm@6.2.0'
@@ -31,6 +32,9 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
+      - run:
+          name: seed
+          command: mysql  -h 127.0.0.1 --local-infile -u root < schema.sql
       - run:
           name: test
           command: npm test

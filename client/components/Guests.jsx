@@ -26,15 +26,20 @@ const Guests = (props) => {
     if (numGuests.adults + numGuests.children >= maxGuests) {
       maxGuestsReached = true;
     }
+    let canDecrease = true;
+    if (guestType === 'Adults' && numGuests.adults === 1 || !number) {
+      canDecrease = false;
+    }
+
     return (
       <div className="toggleContainer dtc">
         <div className="innerToggleContainer">
           <div className="minus dtc">
             <button
               type="button"
-              className={`minusButton guestsButtons${number && (numGuests.adults > 1) ? '' : ' inactive'}`}
+              className={`minusButton guestsButtons${canDecrease ? '' : ' inactive'}`}
               onClick={() => {
-                if (number && numGuests.adults > 1) {
+                if (canDecrease) {
                   changeGuestNum(guestType, '-');
                 }
               }}

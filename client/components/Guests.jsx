@@ -27,7 +27,7 @@ const Guests = (props) => {
       maxGuestsReached = true;
     }
     let canDecrease = true;
-    if (guestType === 'Adults' && numGuests.adults === 1 || !number) {
+    if ((guestType === 'Adults' && numGuests.adults === 1) || !number) {
       canDecrease = false;
     }
 

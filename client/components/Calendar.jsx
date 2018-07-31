@@ -6,8 +6,8 @@ const moment = require('moment');
 
 const Calendar = (props) => {
   const {
-    calendarOpen, month, year, bookings, dates, selectDate, changeMonth, 
-    checkin, checkinSelected, checkout, updated, blackoutAfter, highlightedDates, handleMouseEnter,
+    calendarOpen, month, year, bookings, dates, selectDate, changeMonth, checkin, checkinSelected,
+    checkout, updated, blackoutAfter, highlightedDates, handleMouseEnter, clearDates,
   } = props;
   const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   const bookingsMap = {};
@@ -27,7 +27,6 @@ const Calendar = (props) => {
     if ((checkinSelected && moment(blackoutAfter).isBefore(currentFullDate))
       || (checkinSelected && moment(checkin).isAfter(currentFullDate))
       || bookingsMap[date]) {
-      // console.log(Object.keys(bookingsMap));
       return (
         <li className={`booked dates${!date ? ' blank' : ''}`}>
           {date}
@@ -68,14 +67,14 @@ const Calendar = (props) => {
           <div className="header">
             <span>
               <img alt="" />
-              <button type="button" id="calendarLeftArr" onClick={() => { changeMonth('prev'); }} />
+              <button type="button" className="monthArrows" id="calendarLeftArr" onClick={() => { changeMonth('prev'); }} />
             </span>
             <span className="monthLabel">
               {`${moment(month).format('MMMM')} ${year}`}
             </span>
             <span>
               <img alt="" />
-              <button type="button" id="calendarRightArr" onClick={() => { changeMonth('next'); }} />
+              <button type="button" className="monthArrows" id="calendarRightArr" onClick={() => { changeMonth('next'); }} />
             </span>
           </div>
           <div className="calendar">
@@ -100,6 +99,9 @@ const Calendar = (props) => {
               Updated
               {daysAgo(updated)}
             </p>
+            <button type="button" className="clearDatesButton" onClick={clearDates}>
+              Clear dates
+            </button>
           </div>
         </div>
       </div>
@@ -123,6 +125,7 @@ Calendar.propTypes = {
   blackoutAfter: PropTypes.string,
   highlightedDates: PropTypes.arrayOf(PropTypes.string),
   handleMouseEnter: PropTypes.func,
+  clearDates: PropTypes.func,
 };
 
 Calendar.defaultProps = {
@@ -140,6 +143,7 @@ Calendar.defaultProps = {
   blackoutAfter: '2018-01-01',
   highlightedDates: [],
   handleMouseEnter: () => {},
+  clearDates: () => {},
 };
 
 export default Calendar;

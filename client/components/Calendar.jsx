@@ -66,14 +66,12 @@ const Calendar = (props) => {
         <div className="innerCalContainer">
           <div className="header">
             <span>
-              <img alt="" />
               <button type="button" className="monthArrows" id="calendarLeftArr" onClick={() => { changeMonth('prev'); }} />
             </span>
             <span className="monthLabel">
               {`${moment(month).format('MMMM')} ${year}`}
             </span>
             <span>
-              <img alt="" />
               <button type="button" className="monthArrows" id="calendarRightArr" onClick={() => { changeMonth('next'); }} />
             </span>
           </div>

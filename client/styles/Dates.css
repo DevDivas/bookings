@@ -25,6 +25,7 @@
 input:focus{
   background-color: rgb(153,237,230);
   border-radius: 3px;
+  color: #007a87;
 }
 
 .selectCheckout {

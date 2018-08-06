@@ -7,7 +7,7 @@ const Pricing = (props) => {
   const basePrice = roomDetails.roomRateBase * stayLength;
 
   return (
-    <div>
+    <div className="tableContainer">
       <table>
         <tbody>
           <tr className="row">

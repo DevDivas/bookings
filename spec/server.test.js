@@ -5,7 +5,7 @@ const db = require('../database/index.js');
 describe('Root path', () => {
   test('It should have proper status code for a GET request', (done) => {
     request(app).get('/rooms/25').then((response) => {
-      expect(response.statusCode).toBe(200);
+      expect(response.statusCode).toBe(301);
       done();
     });
   });

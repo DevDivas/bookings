@@ -43,7 +43,6 @@ const Calendar = (props) => {
     const selectedDate = (month === checkinMonth && Number(checkinDay) === date)
       || (month === moment(checkout).format('MM') && date === Number(moment(checkout).format('DD')));
     const betweenDates = (highlightedDates.indexOf(currentFullDate) > -1);
-    // const hoverHighlight = (betweenDates && )
     return (
       <li
         className={`available dates${selectedDate ? ' selectedDate' : ''}${betweenDates ? ' betweenDates' : ''}`}

@@ -26,14 +26,14 @@
   margin-top: 16px;
 }
 .headerContainer {
-  margin-top: 60px;
   width: 100%;
 }
 
 .noCharge {
   text-align: center;
 }
-#root {
+
+#bookings {
   font-family: 'Nunito Sans', sans-serif;
 }
 

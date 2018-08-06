@@ -97,7 +97,7 @@ const Guests = (props) => {
   ));
 
   return (
-    <div>
+    <div className="overallGuests">
       <button type="button" className="guestsDisplay" onClick={toggleGuestMenu}>
         <div className={`guestsDisplayInner${toggleGuests ? ' highlight' : ''}`}>
           <span>

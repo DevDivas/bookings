@@ -9,7 +9,7 @@
   },
   "scripts": {
     "seed": "node database/datagenerator.js && mysql --local-infile -u root < schema.sql",
-    "test": "jest --forceExit",
+    "test": "jest --forceExit --coverage",
     "build": "webpack -d --watch",
     "start": "node server/listen.js"
   },

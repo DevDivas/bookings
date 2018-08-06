@@ -1,16 +1,16 @@
-ul {
+.calendar ul {
   padding: 0px;
   margin: 0px;
 }
 
-p {
+.calendarFooter p {
   margin: 0;
 }
 .calendarContainer {
-  position: fixed;
+  position: absolute;
   z-index: 1;
   width: 332px;
-  top: 215px;
+  top: 168px;
   background-color: white;
   border: 1px solid rgb(219,219,219);
   border-radius: 3px;

@@ -37,7 +37,7 @@ const Guests = (props) => {
           <div className="minus dtc">
             <button
               type="button"
-              className={`minusButton guestsButtons${canDecrease ? null : ' inactive'}`}
+              className={`minusButton guestsButtons${canDecrease ? '' : ' inactive'}`}
               onClick={() => {
                 if (canDecrease) {
                   changeGuestNum(guestType, '-');
@@ -97,7 +97,7 @@ const Guests = (props) => {
   ));
 
   return (
-    <div>
+    <div className="overallGuests">
       <button type="button" className="guestsDisplay" onClick={toggleGuestMenu}>
         <div className={`guestsDisplayInner${toggleGuests ? ' highlight' : ''}`}>
           <span>

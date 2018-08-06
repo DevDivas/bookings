@@ -43,7 +43,6 @@ const Calendar = (props) => {
     const selectedDate = (month === checkinMonth && Number(checkinDay) === date)
       || (month === moment(checkout).format('MM') && date === Number(moment(checkout).format('DD')));
     const betweenDates = (highlightedDates.indexOf(currentFullDate) > -1);
-    // const hoverHighlight = (betweenDates && )
     return (
       <li
         className={`available dates${selectedDate ? ' selectedDate' : ''}${betweenDates ? ' betweenDates' : ''}`}
@@ -66,14 +65,12 @@ const Calendar = (props) => {
         <div className="innerCalContainer">
           <div className="header">
             <span>
-              <img alt="" />
               <button type="button" className="monthArrows" id="calendarLeftArr" onClick={() => { changeMonth('prev'); }} />
             </span>
             <span className="monthLabel">
               {`${moment(month).format('MMMM')} ${year}`}
             </span>
             <span>
-              <img alt="" />
               <button type="button" className="monthArrows" id="calendarRightArr" onClick={() => { changeMonth('next'); }} />
             </span>
           </div>

@@ -54,11 +54,10 @@ class Dates extends React.Component {
     const monthBookings = allBookings.reduce((bookingsPerMonth, booking) => {
       const bookingStartMonth = moment(booking.start_date).format('MM');
       const bookingEndMonth = moment(booking.end_date).format('MM');
-      const bookingStartDay = moment(booking.start_date).format('DD');
-      const bookingEndDay = moment(booking.end_date).format('DD');
+      const bookingStartDay = moment.utc(booking.start_date).format('DD');
+      const bookingEndDay = moment.utc(booking.end_date).format('DD');
       const bookingStartYear = moment(booking.start_date).format('YYYY');
       const bookingEndYear = moment(booking.end_date).format('YYYY');
-
       if (bookingStartMonth === currentMonth && bookingStartYear === currentYear) {
         if (bookingEndMonth === currentMonth) {
           bookingsPerMonth.push([bookingStartDay, bookingEndDay]);
